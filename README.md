@@ -1,144 +1,77 @@
 # 🤖 Agents Repository
 
-A curated collection of AI agents built with the [Anthropic API](https://docs.anthropic.com), organized across three domains: **Personal productivity**, **Product development**, and **Operations & program management**.
+A curated collection of **108 AI agents** built with the [Anthropic API](https://docs.anthropic.com), organized across **7 domains**: Personal, Product Development, Operations & PM, Sales, Marketing, Engineering, and Data & Analytics.
 
 Each agent is self-contained, uses Claude as its reasoning engine, and is designed to be run independently or composed into larger workflows.
 
 ---
 
-## 📁 Structure
-
-```
-agents-repo/
-├── personal/
-│   ├── daily_brief/
-│   ├── research_assistant/
-│   ├── meeting_note_taker/
-│   └── habit_tracker/
-├── product/
-│   ├── prd_writer/
-│   ├── user_story_generator/
-│   ├── competitor_intel/
-│   ├── feedback_analyzer/
-│   ├── roadmap_assistant/
-│   └── release_notes_writer/
-├── operations/
-│   ├── kpi_monitor/
-│   ├── status_report/
-│   ├── incident_responder/
-│   ├── onboarding_guide/
-│   ├── meeting_scheduler/
-│   └── vendor_tracker/
-└── shared/
-    ├── base_agent.py
-    ├── tools.py
-    └── utils.py
-```
-
----
-
 ## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.10+
-- An [Anthropic API key](https://console.anthropic.com/)
 
 ### Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/agents-repo.git
-cd agents-repo
+git clone https://github.com/ferdinandozcc/Agents.git
+cd Agents
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-```
-
-### Configuration
-
-```bash
 export ANTHROPIC_API_KEY="your-api-key-here"
 ```
 
-Or create a `.env` file:
-
-```
-ANTHROPIC_API_KEY=your-api-key-here
-```
-
-### Running an agent
+### Run any agent
 
 ```bash
-python personal/daily_brief/agent.py
-python product/prd_writer/agent.py
-python operations/kpi_monitor/agent.py
+python3 personal/research_assistant/agent.py
+python3 sales/deal_coach/agent.py
+python3 data/sql_query_writer/agent.py
 ```
 
 ---
 
-## 🧠 Agent Categories
+## 📁 Categories
+
+| Category | Agents | Focus |
+|---|---|---|
+| [personal/](./personal/) | 14 | Daily productivity, health, finance, learning |
+| [product/](./product/) | 18 | PM lifecycle, research, launch, experimentation |
+| [operations/](./operations/) | 16 | Ops, program management, compliance, HR |
+| [sales/](./sales/) | 15 | Pipeline, outreach, forecasting, enablement |
+| [marketing/](./marketing/) | 15 | Content, campaigns, SEO, attribution |
+| [engineering/](./engineering/) | 15 | Code quality, security, infra, reliability |
+| [data/](./data/) | 15 | Analytics, BI, data quality, ML ops |
+| **Total** | **108** | |
+
+---
+
+## 🧠 All Agents
 
 ### Personal
-| Agent | Description |
-|---|---|
-| [Daily Brief](./personal/daily_brief/) | Morning digest from calendar, email, tasks, and news |
-| [Research Assistant](./personal/research_assistant/) | Web search, summarization, and structured reports |
-| [Meeting Note-Taker](./personal/meeting_note_taker/) | Transcription, action items, and meeting summaries |
-| [Habit Tracker](./personal/habit_tracker/) | Goal logging, streak tracking, and nudges |
+daily_brief · research_assistant · meeting_note_taker · habit_tracker · email_triage · travel_planner · budget_tracker · health_wellness_coach · learning_assistant · news_summarizer · job_application_tracker · personal_finance_advisor · social_media_manager · document_summarizer
 
-### Product Development
-| Agent | Description |
-|---|---|
-| [PRD Writer](./product/prd_writer/) | Interview-driven Product Requirements Documents |
-| [User Story Generator](./product/user_story_generator/) | Epics → user stories with acceptance criteria |
-| [Competitor Intel](./product/competitor_intel/) | Monitor competitor signals across web sources |
-| [Feedback Analyzer](./product/feedback_analyzer/) | Cluster and theme user feedback from multiple sources |
-| [Roadmap Assistant](./product/roadmap_assistant/) | Backlog prioritization with impact/effort scoring |
-| [Release Notes Writer](./product/release_notes_writer/) | Commits and tickets → user-facing release notes |
+### Product
+prd_writer · user_story_generator · competitor_intel · feedback_analyzer · roadmap_assistant · release_notes_writer · ab_test_designer · design_critique · feature_flag_manager · sprint_retrospective · persona_builder · journey_map_creator · tech_debt_tracker · api_documentation_writer · localization_manager · launch_checklist · nps_analyzer · pricing_strategy_advisor
 
-### Operations & Program Management
-| Agent | Description |
-|---|---|
-| [KPI Monitor](./operations/kpi_monitor/) | Dashboard watching, anomaly alerts, trend explanations |
-| [Status Report](./operations/status_report/) | Weekly/monthly program status report generation |
-| [Incident Responder](./operations/incident_responder/) | Triage guide, owner assignment, post-mortem writer |
-| [Onboarding Guide](./operations/onboarding_guide/) | Step-by-step onboarding for new team members |
-| [Meeting Scheduler](./operations/meeting_scheduler/) | Optimal slot finding and agenda drafting |
-| [Vendor Tracker](./operations/vendor_tracker/) | Contract renewals, SLAs, and vendor deliverable alerts |
+### Operations
+kpi_monitor · status_report · incident_responder · onboarding_guide · meeting_scheduler · vendor_tracker · budget_forecaster · sla_monitor · process_documentation_writer · risk_register_manager · change_management_planner · audit_trail · resource_allocator · okr_tracker · procurement_assistant · hiring_pipeline_tracker
+
+### Sales
+lead_qualifier · outreach_writer · crm_hygiene · deal_coach · proposal_writer · win_loss_analyzer · pipeline_forecaster · call_prep · follow_up_automator · contract_redline_reviewer · churn_predictor · upsell_finder · sales_playbook_builder · commission_calculator · territory_planner
+
+### Marketing
+content_repurposer · seo_optimizer · campaign_performance_analyst · email_copywriter · brand_voice_checker · social_listening · content_calendar_planner · landing_page_optimizer · influencer_researcher · event_promotion · ad_copy_generator · lead_magnet_creator · newsletter_writer · market_research · attribution_analyzer
+
+### Engineering
+code_reviewer · bug_triage · test_case_generator · dependency_auditor · architecture_advisor · deployment_monitor · db_query_optimizer · documentation_generator · security_scanner · sprint_velocity_tracker · oncall_handoff_writer · api_contract_tester · performance_profiler · feature_branch_manager · infra_cost_analyzer
+
+### Data & Analytics
+data_quality_monitor · sql_query_writer · dashboard_builder · etl_pipeline_monitor · cohort_analysis · forecasting_agent · ab_test_analyzer · data_dictionary_writer · executive_report_writer · customer_segmentation · churn_analysis · event_tracking_auditor · ml_model_monitor · data_governance · insight_narrator
 
 ---
 
 ## 🏗️ Architecture
 
-All agents share a common pattern:
-
-```
-User Input
-    │
-    ▼
-┌─────────────┐
-│  Agent Loop  │  ← Claude (claude-sonnet-4-5) as reasoning engine
-│             │
-│  think →    │
-│  tool_use → │  ← Tools (web search, file I/O, APIs, etc.)
-│  respond    │
-└─────────────┘
-    │
-    ▼
-Structured Output
-```
-
-The `shared/` module provides reusable base classes, tool definitions, and utilities used across all agents.
-
----
-
-## 🔧 Adding a New Agent
-
-1. Create a folder under the appropriate category
-2. Copy the `shared/base_agent.py` pattern
-3. Define your tools in `tools.py`
-4. Add a `README.md` describing inputs, outputs, and usage
-5. Submit a PR!
-
----
+All agents extend `shared/base_agent.py` and follow the same agentic loop pattern using the Anthropic API with tool use.
 
 ## 📄 License
 
