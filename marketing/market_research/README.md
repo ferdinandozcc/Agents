@@ -1,15 +1,17 @@
 # Market Research Agent
 
-Researches TAM, SAM, SOM, and buyer trends for a target market.
-
 ## What it does
 
-- 1. 
+- Define and size the TAM, SAM, and SOM for a market
+- Research buyer personas and decision-making behavior
+- Identify market trends, growth drivers, and headwinds
+- Analyze major players and approximate market share
+- Produce a structured market overview report with sources
 
 ## Usage
 
 ```bash
-python3 marketing/market_research_agent/agent.py
+python3 marketing/market_research/agent.py
 ```
 
 ## Category

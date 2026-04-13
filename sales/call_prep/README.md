@@ -1,15 +1,17 @@
 # Call Prep Agent
 
-Researches prospects and preps talking points before sales calls.
-
 ## What it does
 
-- 1. 
+- Research the company: size, industry, news, and tech stack
+- Research the contact's role, background, and LinkedIn activity
+- Identify likely pain points and current priorities
+- Prepare 3-5 tailored discovery questions for the call
+- Anticipate likely objections with prepared responses
 
 ## Usage
 
 ```bash
-python3 sales/call_prep_agent/agent.py
+python3 sales/call_prep/agent.py
 ```
 
 ## Category

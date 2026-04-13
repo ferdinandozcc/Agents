@@ -1,15 +1,17 @@
 # Launch Checklist Agent
 
-Runs pre-launch checklists and gates releases against quality criteria.
-
 ## What it does
 
-- 1. 
+- Walk through a comprehensive launch checklist covering all teams
+- Track completion status per item with assigned owner
+- Flag blockers that should delay the launch
+- Estimate overall launch readiness as a percentage score
+- Generate a clear go or no-go recommendation with rationale
 
 ## Usage
 
 ```bash
-python3 product/launch_checklist_agent/agent.py
+python3 product/launch_checklist/agent.py
 ```
 
 ## Category

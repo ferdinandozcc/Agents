@@ -1,15 +1,17 @@
 # Data Dictionary Writer Agent
 
-Generates and maintains a data dictionary from schema definitions.
-
 ## What it does
 
-- 1. 
+- Parse database schemas or dbt models for documentation
+- Generate human-readable descriptions for tables and columns
+- Identify and tag PII and sensitive fields in the schema
+- Document business logic for derived and calculated fields
+- Keep the dictionary in sync as schemas evolve over time
 
 ## Usage
 
 ```bash
-python3 data/data_dictionary_writer_agent/agent.py
+python3 data/data_dictionary_writer/agent.py
 ```
 
 ## Category

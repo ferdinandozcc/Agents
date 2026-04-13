@@ -1,15 +1,17 @@
 # Localization Manager Agent
 
-Manages translation workflows and flags strings needing localization.
-
 ## What it does
 
-- 1. 
+- Audit codebases or content for hardcoded strings needing localization
+- Manage translation key inventories across locales
+- Flag missing translations for each supported language
+- Review translated strings for quality and cultural appropriateness
+- Track localization coverage percentage per language
 
 ## Usage
 
 ```bash
-python3 product/localization_manager_agent/agent.py
+python3 product/localization_manager/agent.py
 ```
 
 ## Category

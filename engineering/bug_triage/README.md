@@ -1,15 +1,17 @@
 # Bug Triage Agent
 
-Categorizes incoming bugs by severity, assigns owners, and tracks fixes.
-
 ## What it does
 
-- 1. 
+- Categorize bug severity as Critical, High, Medium, or Low
+- Identify the likely component and owning team
+- Check for duplicate reports and link them together
+- Draft a clear, reproducible bug report with steps
+- Track resolution status and time-to-fix SLAs
 
 ## Usage
 
 ```bash
-python3 engineering/bug_triage_agent/agent.py
+python3 engineering/bug_triage/agent.py
 ```
 
 ## Category

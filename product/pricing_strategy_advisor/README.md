@@ -1,15 +1,17 @@
 # Pricing Strategy Advisor Agent
 
-Analyzes pricing models, competitor data, and recommends adjustments.
-
 ## What it does
 
-- 1. 
+- Analyze the current pricing model and competitive landscape
+- Research competitor pricing tiers and packaging strategies
+- Model the revenue impact of pricing changes
+- Recommend pricing structure suited to the business model
+- Suggest packaging and bundling strategies for growth
 
 ## Usage
 
 ```bash
-python3 product/pricing_strategy_advisor_agent/agent.py
+python3 product/pricing_strategy_advisor/agent.py
 ```
 
 ## Category

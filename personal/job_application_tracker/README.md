@@ -1,15 +1,17 @@
 # Job Application Tracker Agent
 
-Tracks applications, deadlines, follow-ups, and interview prep notes.
-
 ## What it does
 
-- 1. 
+- Log job applications with company, role, date, and status
+- Track deadlines and follow-up reminders
+- Store interview notes and feedback for review
+- Prep for interviews with company research and common questions
+- Produce a weekly job search summary report
 
 ## Usage
 
 ```bash
-python3 personal/job_application_tracker_agent/agent.py
+python3 personal/job_application_tracker/agent.py
 ```
 
 ## Category

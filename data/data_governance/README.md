@@ -1,15 +1,17 @@
 # Data Governance Agent
 
-Enforces data access policies, tags PII, and manages data lineage.
-
 ## What it does
 
-- 1. 
+- Classify data assets by sensitivity: public, internal, and restricted
+- Identify and tag PII, PHI, and PCI fields in the schema
+- Enforce data access policies and flag policy violations
+- Document data lineage from source systems to consumption
+- Produce compliance-ready data inventory reports
 
 ## Usage
 
 ```bash
-python3 data/data_governance_agent/agent.py
+python3 data/data_governance/agent.py
 ```
 
 ## Category

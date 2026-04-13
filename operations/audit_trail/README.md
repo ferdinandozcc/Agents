@@ -1,15 +1,17 @@
 # Audit Trail Agent
 
-Logs and summarizes key decisions and actions for compliance audits.
-
 ## What it does
 
-- 1. 
+- Log key decisions with who decided, when, what, and why
+- Maintain an immutable audit trail with timestamps
+- Produce audit-ready summaries for a given time period
+- Flag gaps in documentation that could create compliance risk
+- Support SOC2, ISO, and regulatory audit preparation
 
 ## Usage
 
 ```bash
-python3 operations/audit_trail_agent/agent.py
+python3 operations/audit_trail/agent.py
 ```
 
 ## Category

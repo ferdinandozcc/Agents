@@ -1,15 +1,17 @@
 # Social Listening Agent
 
-Monitors brand mentions and competitor buzz across social channels.
-
 ## What it does
 
-- 1. 
+- Search for brand mentions across public social and web sources
+- Categorize sentiment as positive, neutral, or negative
+- Surface trending topics relevant to your category
+- Monitor competitor activity and engagement levels
+- Flag viral or crisis-potential content requiring immediate response
 
 ## Usage
 
 ```bash
-python3 marketing/social_listening_agent/agent.py
+python3 marketing/social_listening/agent.py
 ```
 
 ## Category

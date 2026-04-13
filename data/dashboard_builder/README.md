@@ -1,15 +1,17 @@
 # Dashboard Builder Agent
 
-Designs metric dashboards from business questions and available data.
-
 ## What it does
 
-- 1. 
+- Understand what business questions the dashboard needs to answer
+- Select the right chart types for each metric being displayed
+- Design a logical layout with executive summary at the top
+- Define the metrics, dimensions, and filters needed per widget
+- Write the SQL or data queries for each dashboard widget
 
 ## Usage
 
 ```bash
-python3 data/dashboard_builder_agent/agent.py
+python3 data/dashboard_builder/agent.py
 ```
 
 ## Category

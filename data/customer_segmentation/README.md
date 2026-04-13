@@ -1,15 +1,17 @@
 # Customer Segmentation Agent
 
-Clusters customers by behavior and value and labels each segment.
-
 ## What it does
 
-- 1. 
+- Analyze customer data including usage, spend, tenure, and size
+- Identify natural clusters using behavioral and demographic signals
+- Name and describe each segment with clear characteristics
+- Score each segment by LTV and strategic priority
+- Recommend different GTM strategies tailored per segment
 
 ## Usage
 
 ```bash
-python3 data/customer_segmentation_agent/agent.py
+python3 data/customer_segmentation/agent.py
 ```
 
 ## Category

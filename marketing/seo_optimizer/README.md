@@ -1,15 +1,17 @@
 # SEO Optimizer Agent
 
-Audits pages for SEO issues, suggests keywords, and improves meta copy.
-
 ## What it does
 
-- 1. 
+- Audit a page for on-page SEO including title, meta, and headers
+- Research relevant keywords and search intent for the topic
+- Rewrite titles and meta descriptions to improve CTR
+- Suggest content additions to improve topical authority
+- Flag technical issues such as missing alt text and canonical problems
 
 ## Usage
 
 ```bash
-python3 marketing/seo_optimizer_agent/agent.py
+python3 marketing/seo_optimizer/agent.py
 ```
 
 ## Category

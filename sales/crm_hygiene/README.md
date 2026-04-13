@@ -1,15 +1,17 @@
 # CRM Hygiene Agent
 
-Audits CRM records for missing fields, duplicates, and stale data.
-
 ## What it does
 
-- 1. 
+- Audit records for missing required fields like email and company
+- Identify duplicate contacts and suggest merge candidates
+- Flag deals with no activity in the last 30, 60, or 90 days
+- Identify contacts with no associated account record
+- Produce a data quality score and remediation report
 
 ## Usage
 
 ```bash
-python3 sales/crm_hygiene_agent/agent.py
+python3 sales/crm_hygiene/agent.py
 ```
 
 ## Category

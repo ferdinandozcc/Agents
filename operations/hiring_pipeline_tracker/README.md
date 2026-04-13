@@ -1,15 +1,17 @@
 # Hiring Pipeline Tracker Agent
 
-Tracks candidates across stages, flags bottlenecks, and sends nudges.
-
 ## What it does
 
-- 1. 
+- Track candidates across all hiring stages
+- Flag candidates stuck at a stage for too long
+- Calculate pipeline metrics including time-to-hire and conversion rates
+- Draft interview scheduling and status update emails
+- Produce weekly hiring funnel reports for leadership
 
 ## Usage
 
 ```bash
-python3 operations/hiring_pipeline_tracker_agent/agent.py
+python3 operations/hiring_pipeline_tracker/agent.py
 ```
 
 ## Category

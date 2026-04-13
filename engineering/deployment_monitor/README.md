@@ -1,15 +1,17 @@
 # Deployment Monitor Agent
 
-Watches deployments for errors, rollback triggers, and health checks.
-
 ## What it does
 
-- 1. 
+- Check error rates, latency, and health endpoint status post-deploy
+- Compare pre and post deploy metrics for regressions
+- Flag anomalies that exceed defined rollback thresholds
+- Generate a deployment health report for the team
+- Recommend rollback or continue decisions with clear rationale
 
 ## Usage
 
 ```bash
-python3 engineering/deployment_monitor_agent/agent.py
+python3 engineering/deployment_monitor/agent.py
 ```
 
 ## Category

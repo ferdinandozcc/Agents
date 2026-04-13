@@ -1,15 +1,17 @@
 # Executive Report Writer Agent
 
-Turns raw metrics into narrative executive summaries with insights.
-
 ## What it does
 
-- 1. 
+- Take raw metrics and KPI data as structured input
+- Identify the 3 to 5 most important insights for leadership
+- Write a narrative summary covering what happened and why
+- Highlight wins and flag concerns requiring attention
+- End with recommended decisions or actions for leadership
 
 ## Usage
 
 ```bash
-python3 data/executive_report_writer_agent/agent.py
+python3 data/executive_report_writer/agent.py
 ```
 
 ## Category

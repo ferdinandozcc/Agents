@@ -1,15 +1,17 @@
 # Sprint Retrospective Agent
 
-Facilitates retros, captures feedback, and tracks action items over time.
-
 ## What it does
 
-- 1. 
+- Run a structured retro using Start / Stop / Continue or 4Ls format
+- Capture all team feedback neutrally and without judgment
+- Help the team dot-vote on top priorities
+- Convert top items into concrete action items with owners
+- Track action items from previous retros and check completion
 
 ## Usage
 
 ```bash
-python3 product/sprint_retrospective_agent/agent.py
+python3 product/sprint_retrospective/agent.py
 ```
 
 ## Category

@@ -1,10 +1,12 @@
 # Forecasting Agent
 
-Builds time-series forecasts for revenue, usage, or demand metrics.
-
 ## What it does
 
-- 1. 
+- Analyze historical time-series data for trends and seasonality
+- Apply appropriate methods such as exponential smoothing or regression
+- Produce point forecasts with confidence intervals
+- Flag forecast assumptions and their sensitivity to changes
+- Compare forecasts to actuals and improve the model over time
 
 ## Usage
 

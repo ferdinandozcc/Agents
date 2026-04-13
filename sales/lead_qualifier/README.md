@@ -1,15 +1,17 @@
 # Lead Qualifier Agent
 
-Scores inbound leads against ICP criteria and routes to the right rep.
-
 ## What it does
 
-- 1. 
+- Score leads against ICP criteria including size, industry, and role
+- Assign a lead grade from A hot through D disqualify
+- Recommend the best rep or team to route each lead to
+- Draft a personalized intro message for high-grade leads
+- Flag leads that need more research before outreach
 
 ## Usage
 
 ```bash
-python3 sales/lead_qualifier_agent/agent.py
+python3 sales/lead_qualifier/agent.py
 ```
 
 ## Category

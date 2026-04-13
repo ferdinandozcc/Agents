@@ -1,15 +1,17 @@
 # Insight Narrator Agent
 
-Takes a chart or table and writes a plain-language story about the data.
-
 ## What it does
 
-- 1. 
+- Identify the single most important insight in the data
+- Write a headline that captures that insight clearly and directly
+- Explain what is happening, why it matters, and what to do
+- Flag what is surprising or counter-intuitive in the data
+- Suggest the next question worth investigating
 
 ## Usage
 
 ```bash
-python3 data/insight_narrator_agent/agent.py
+python3 data/insight_narrator/agent.py
 ```
 
 ## Category

@@ -1,15 +1,17 @@
 # Win/Loss Analyzer Agent
 
-Analyzes won and lost deals to surface patterns and coaching insights.
-
 ## What it does
 
-- 1. 
+- Analyze patterns across won and lost deals
+- Identify top win factors and most common loss reasons
+- Segment findings by deal size, industry, rep, or competitor
+- Produce a win/loss report with coaching recommendations
+- Track how win rate changes over time and by segment
 
 ## Usage
 
 ```bash
-python3 sales/win/loss_analyzer_agent/agent.py
+python3 sales/win_loss_analyzer/agent.py
 ```
 
 ## Category

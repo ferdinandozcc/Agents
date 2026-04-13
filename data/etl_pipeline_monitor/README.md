@@ -1,15 +1,17 @@
 # ETL Pipeline Monitor Agent
 
-Monitors data pipelines for failures, delays, and data anomalies.
-
 ## What it does
 
-- 1. 
+- Check pipeline run status and detect failures immediately
+- Flag pipelines running late against their defined SLA
+- Validate row counts and data volumes against expectations
+- Alert on schema changes detected in source tables
+- Produce a daily pipeline health report for the team
 
 ## Usage
 
 ```bash
-python3 data/etl_pipeline_monitor_agent/agent.py
+python3 data/etl_pipeline_monitor/agent.py
 ```
 
 ## Category

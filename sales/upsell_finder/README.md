@@ -1,15 +1,17 @@
 # Upsell Opportunity Finder Agent
 
-Scans customer data for expansion and upsell opportunities.
-
 ## What it does
 
-- 1. 
+- Analyze customer usage patterns against their current plan
+- Identify customers approaching usage limits as upgrade triggers
+- Match customers to relevant add-on products based on usage
+- Score expansion opportunities by revenue potential and likelihood
+- Draft personalized expansion outreach messages
 
 ## Usage
 
 ```bash
-python3 sales/upsell_opportunity_finder_agent/agent.py
+python3 sales/upsell_finder/agent.py
 ```
 
 ## Category

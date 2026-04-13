@@ -1,15 +1,17 @@
 # Event Tracking Auditor Agent
 
-Audits analytics event taxonomy for coverage gaps and naming issues.
-
 ## What it does
 
-- 1. 
+- Review the event tracking plan against what is actually implemented
+- Flag missing events for key user flows in the product
+- Identify naming inconsistencies and schema drift in events
+- Check for PII appearing in event properties
+- Produce a prioritized audit report with recommended fixes
 
 ## Usage
 
 ```bash
-python3 data/event_tracking_auditor_agent/agent.py
+python3 data/event_tracking_auditor/agent.py
 ```
 
 ## Category

@@ -1,15 +1,17 @@
 # API Contract Tester Agent
 
-Validates API responses against OpenAPI specs and flags regressions.
-
 ## What it does
 
-- 1. 
+- Compare API responses against OpenAPI and Swagger specs
+- Flag fields that are missing, extra, or of the wrong type
+- Test required vs optional field handling in responses
+- Validate error responses and HTTP status codes
+- Generate a contract compliance report for the team
 
 ## Usage
 
 ```bash
-python3 engineering/api_contract_tester_agent/agent.py
+python3 engineering/api_contract_tester/agent.py
 ```
 
 ## Category

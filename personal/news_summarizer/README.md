@@ -1,15 +1,17 @@
 # News Summarizer Agent
 
-Curates and summarizes news from chosen topics into a daily digest.
-
 ## What it does
 
-- 1. 
+- Fetch news from configured sources and topics
+- Filter out low-quality or clickbait content
+- Write 2-3 sentence summaries for each story
+- Group stories by topic (tech, business, world, etc.)
+- Flag breaking news and distinguish opinion from reporting
 
 ## Usage
 
 ```bash
-python3 personal/news_summarizer_agent/agent.py
+python3 personal/news_summarizer/agent.py
 ```
 
 ## Category

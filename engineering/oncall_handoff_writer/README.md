@@ -1,15 +1,17 @@
 # On-Call Handoff Writer Agent
 
-Generates structured on-call handoff notes from incident logs.
-
 ## What it does
 
-- 1. 
+- Summarize incidents from the current on-call period
+- Document open issues and their current resolution status
+- List pending actions and their assigned owners
+- Flag anything the incoming on-call needs to watch closely
+- Link to relevant runbooks and monitoring dashboards
 
 ## Usage
 
 ```bash
-python3 engineering/on-call_handoff_writer_agent/agent.py
+python3 engineering/oncall_handoff_writer/agent.py
 ```
 
 ## Category

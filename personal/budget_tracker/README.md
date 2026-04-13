@@ -1,15 +1,17 @@
 # Budget Tracker Agent
 
-Monitors spending, categorizes transactions, and flags budget overruns.
-
 ## What it does
 
-- 1. 
+- Log and categorize transactions (food, transport, entertainment, etc.)
+- Track spending against monthly budgets per category
+- Alert when a category is over budget
+- Produce weekly spending summaries with trends
+- Suggest areas to cut back based on patterns
 
 ## Usage
 
 ```bash
-python3 personal/budget_tracker_agent/agent.py
+python3 personal/budget_tracker/agent.py
 ```
 
 ## Category

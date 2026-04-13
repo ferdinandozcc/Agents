@@ -1,15 +1,17 @@
 # Journey Map Creator Agent
 
-Builds end-to-end user journey maps with pain points and opportunities.
-
 ## What it does
 
-- 1. 
+- Define the user, scenario, and scope of the journey
+- Map each stage from awareness through onboarding to renewal
+- Capture user actions, thoughts, and emotions at each stage
+- Identify pain points and moments of delight throughout
+- Surface opportunity areas for product improvements
 
 ## Usage
 
 ```bash
-python3 product/journey_map_creator_agent/agent.py
+python3 product/journey_map_creator/agent.py
 ```
 
 ## Category

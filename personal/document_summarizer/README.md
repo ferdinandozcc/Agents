@@ -1,15 +1,17 @@
 # Document Summarizer Agent
 
-Reads long PDFs, contracts, or reports and extracts key points.
-
 ## What it does
 
-- 1. 
+- Provide a 3-5 sentence executive summary of any document
+- Extract key facts, numbers, and important dates
+- List action items or decisions required from the document
+- Flag any risks, obligations, or unusual clauses
+- Answer specific questions about the document content
 
 ## Usage
 
 ```bash
-python3 personal/document_summarizer_agent/agent.py
+python3 personal/document_summarizer/agent.py
 ```
 
 ## Category

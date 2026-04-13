@@ -1,15 +1,17 @@
 # Database Query Optimizer Agent
 
-Analyzes slow queries and suggests indexes and schema improvements.
-
 ## What it does
 
-- 1. 
+- Analyze slow query logs or EXPLAIN output from the database
+- Identify missing indexes, full table scans, and N+1 patterns
+- Suggest query rewrites to improve efficiency
+- Recommend schema changes such as indexing and partitioning
+- Estimate performance improvement from each recommendation
 
 ## Usage
 
 ```bash
-python3 engineering/database_query_optimizer_agent/agent.py
+python3 engineering/db_query_optimizer/agent.py
 ```
 
 ## Category

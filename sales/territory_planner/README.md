@@ -1,15 +1,17 @@
 # Territory Planner Agent
 
-Designs balanced sales territories based on revenue potential and coverage.
-
 ## What it does
 
-- 1. 
+- Analyze account distribution by geography, industry, and size
+- Score territory revenue potential using firmographic data
+- Balance territories across reps by workload and potential
+- Flag coverage gaps and over-served areas in the market
+- Model headcount needs to cover the addressable market
 
 ## Usage
 
 ```bash
-python3 sales/territory_planner_agent/agent.py
+python3 sales/territory_planner/agent.py
 ```
 
 ## Category

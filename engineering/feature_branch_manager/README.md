@@ -1,15 +1,17 @@
 # Feature Branch Manager Agent
 
-Tracks open branches, flags stale ones, and suggests merge readiness.
-
 ## What it does
 
-- 1. 
+- List all open feature branches with age and last commit date
+- Flag branches inactive for more than 14 days
+- Check for merge conflicts with the main or develop branch
+- Assess merge readiness based on tests, reviews, and freshness
+- Suggest branch cleanup order and merge sequencing
 
 ## Usage
 
 ```bash
-python3 engineering/feature_branch_manager_agent/agent.py
+python3 engineering/feature_branch_manager/agent.py
 ```
 
 ## Category

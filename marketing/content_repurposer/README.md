@@ -1,15 +1,17 @@
 # Content Repurposer Agent
 
-Turns a blog post into LinkedIn posts, tweets, email, and video scripts.
-
 ## What it does
 
-- 1. 
+- Extract the 5 most shareable insights from any content piece
+- Write 3 LinkedIn posts with a thought leadership angle
+- Write 5 punchy and engaging tweets or X posts
+- Write an email newsletter version of the content
+- Write a short-form video script of 60 to 90 seconds
 
 ## Usage
 
 ```bash
-python3 marketing/content_repurposer_agent/agent.py
+python3 marketing/content_repurposer/agent.py
 ```
 
 ## Category

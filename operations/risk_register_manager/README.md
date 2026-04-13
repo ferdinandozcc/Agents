@@ -1,15 +1,17 @@
 # Risk Register Manager Agent
 
-Maintains a live risk register with likelihood, impact, and mitigations.
-
 ## What it does
 
-- 1. 
+- Capture risks with description, category, owner, and date
+- Score each risk by likelihood multiplied by impact on a 1-5 scale
+- Track mitigation actions and residual risk per item
+- Prioritize top risks for leadership review each week
+- Flag risks with no mitigation plan or overdue actions
 
 ## Usage
 
 ```bash
-python3 operations/risk_register_manager_agent/agent.py
+python3 operations/risk_register_manager/agent.py
 ```
 
 ## Category

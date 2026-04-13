@@ -1,15 +1,17 @@
 # Learning Assistant Agent
 
-Creates personalized study plans, quizzes, and tracks learning progress.
-
 ## What it does
 
-- 1. 
+- Assess the user's current knowledge level on a topic
+- Create a structured study plan with milestones
+- Explain concepts clearly with examples and analogies
+- Quiz the user with spaced repetition techniques
+- Track what's been learned and what needs review
 
 ## Usage
 
 ```bash
-python3 personal/learning_assistant_agent/agent.py
+python3 personal/learning_assistant/agent.py
 ```
 
 ## Category

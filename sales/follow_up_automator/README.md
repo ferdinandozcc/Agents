@@ -1,15 +1,17 @@
 # Follow-Up Automator Agent
 
-Drafts and schedules follow-up messages based on call outcomes.
-
 ## What it does
 
-- 1. 
+- Draft a same-day follow-up email summarizing the call
+- Confirm next steps and commitments made during the meeting
+- Attach relevant resources mentioned in the conversation
+- Schedule reminders for follow-up if no response in N days
+- Write a multi-touch sequence for unresponsive prospects
 
 ## Usage
 
 ```bash
-python3 sales/follow-up_automator_agent/agent.py
+python3 sales/follow_up_automator/agent.py
 ```
 
 ## Category

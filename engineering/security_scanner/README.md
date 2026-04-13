@@ -1,15 +1,17 @@
 # Security Scanner Agent
 
-Flags common security vulnerabilities in code (OWASP top 10).
-
 ## What it does
 
-- 1. 
+- Scan code for injection vulnerabilities including SQL and command
+- Identify broken authentication and session management issues
+- Flag sensitive data exposure such as hardcoded secrets
+- Detect insecure direct object references in the codebase
+- Map findings to OWASP Top 10 with remediation guidance
 
 ## Usage
 
 ```bash
-python3 engineering/security_scanner_agent/agent.py
+python3 engineering/security_scanner/agent.py
 ```
 
 ## Category

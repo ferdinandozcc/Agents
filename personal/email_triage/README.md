@@ -1,15 +1,17 @@
 # Email Triage Agent
 
-Sorts inbox, flags urgent emails, drafts replies to routine messages.
-
 ## What it does
 
-- 1. 
+- Categorize each email: Urgent / Action Required / FYI / Newsletter / Spam
+- Flag emails needing a reply within 24 hours
+- Draft concise replies for routine messages
+- Suggest emails that can be deleted or unsubscribed
+- Match reply tone to the user's voice and style
 
 ## Usage
 
 ```bash
-python3 personal/email_triage_agent/agent.py
+python3 personal/email_triage/agent.py
 ```
 
 ## Category

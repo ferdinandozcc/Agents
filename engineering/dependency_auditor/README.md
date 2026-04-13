@@ -1,15 +1,17 @@
 # Dependency Auditor Agent
 
-Scans package dependencies for outdated versions and CVEs.
-
 ## What it does
 
-- 1. 
+- Parse package manifests such as requirements.txt and package.json
+- Identify outdated dependencies and available updates
+- Flag known CVEs using public vulnerability data
+- Prioritize updates by severity and ease of upgrade
+- Produce an upgrade plan with estimated effort per package
 
 ## Usage
 
 ```bash
-python3 engineering/dependency_auditor_agent/agent.py
+python3 engineering/dependency_auditor/agent.py
 ```
 
 ## Category

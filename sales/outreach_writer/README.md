@@ -1,15 +1,17 @@
 # Outreach Writer Agent
 
-Writes personalized cold emails and LinkedIn messages for prospects.
-
 ## What it does
 
-- 1. 
+- Write cold emails with subject line, opener, value prop, and CTA
+- Draft personalized LinkedIn connection requests
+- Create follow-up sequences for day 3, day 7, and day 14
+- Build multi-channel cadences combining email, LinkedIn, and phone
+- Research the prospect before writing to maximize personalization
 
 ## Usage
 
 ```bash
-python3 sales/outreach_writer_agent/agent.py
+python3 sales/outreach_writer/agent.py
 ```
 
 ## Category

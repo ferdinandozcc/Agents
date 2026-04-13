@@ -1,15 +1,17 @@
 # Contract Redline Reviewer Agent
 
-Reviews contract markups and flags non-standard clauses for legal.
-
 ## What it does
 
-- 1. 
+- Review contract redlines and identify changes from standard terms
+- Flag high-risk clauses such as unlimited liability or IP assignment
+- Summarize the delta between your paper and their paper
+- Suggest standard counter-positions for common redlines
+- Produce a redline summary memo for legal review
 
 ## Usage
 
 ```bash
-python3 sales/contract_redline_reviewer_agent/agent.py
+python3 sales/contract_redline_reviewer/agent.py
 ```
 
 ## Category

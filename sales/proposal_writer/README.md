@@ -1,15 +1,17 @@
 # Proposal Writer Agent
 
-Drafts customized sales proposals from templates and deal context.
-
 ## What it does
 
-- 1. 
+- Write executive summaries tailored to the buyer's priorities
+- Create solution overviews connecting features to pain points
+- Build ROI and business case sections with supporting numbers
+- Format pricing tables and package comparison sections
+- Include next steps and implementation timelines
 
 ## Usage
 
 ```bash
-python3 sales/proposal_writer_agent/agent.py
+python3 sales/proposal_writer/agent.py
 ```
 
 ## Category

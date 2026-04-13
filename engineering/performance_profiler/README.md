@@ -1,15 +1,17 @@
 # Performance Profiler Agent
 
-Analyzes performance metrics and identifies bottlenecks.
-
 ## What it does
 
-- 1. 
+- Analyze profiling data across CPU, memory, I/O, and network
+- Identify the top 3 bottlenecks by business impact
+- Trace slow request paths and execution hotspots
+- Recommend targeted optimizations with expected performance gains
+- Define performance budgets and SLOs for the system
 
 ## Usage
 
 ```bash
-python3 engineering/performance_profiler_agent/agent.py
+python3 engineering/performance_profiler/agent.py
 ```
 
 ## Category

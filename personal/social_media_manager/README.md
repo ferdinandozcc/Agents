@@ -1,15 +1,17 @@
 # Social Media Manager Agent
 
-Drafts posts, schedules content, and tracks engagement across platforms.
-
 ## What it does
 
-- 1. 
+- Draft platform-optimized posts for LinkedIn, Twitter/X, and Instagram
+- Build content calendars aligned to goals and campaigns
+- Suggest hashtags, posting times, and engagement tactics
+- Repurpose long-form content into social snippets
+- Analyze what content is performing well and why
 
 ## Usage
 
 ```bash
-python3 personal/social_media_manager_agent/agent.py
+python3 personal/social_media_manager/agent.py
 ```
 
 ## Category

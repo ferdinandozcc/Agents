@@ -1,15 +1,17 @@
 # Resource Allocator Agent
 
-Matches team capacity to project demand and flags over-allocation.
-
 ## What it does
 
-- 1. 
+- Map team members' available capacity per week
+- Match demand from active projects to available supply
+- Flag over-allocated individuals exceeding 100% capacity
+- Suggest reallocation options to balance team load
+- Model capacity impact of new projects before committing
 
 ## Usage
 
 ```bash
-python3 operations/resource_allocator_agent/agent.py
+python3 operations/resource_allocator/agent.py
 ```
 
 ## Category

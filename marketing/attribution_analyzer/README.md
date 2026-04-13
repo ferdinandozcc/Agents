@@ -1,15 +1,17 @@
 # Attribution Analyzer Agent
 
-Maps marketing touchpoints to revenue and scores channel contribution.
-
 ## What it does
 
-- 1. 
+- Map the customer journey from first touch to closed revenue
+- Apply attribution models: first touch, last touch, linear, and time decay
+- Score each channel's contribution to pipeline and revenue
+- Identify the highest and lowest ROI channels
+- Recommend budget reallocation based on attribution data
 
 ## Usage
 
 ```bash
-python3 marketing/attribution_analyzer_agent/agent.py
+python3 marketing/attribution_analyzer/agent.py
 ```
 
 ## Category

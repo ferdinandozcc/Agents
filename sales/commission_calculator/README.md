@@ -1,15 +1,17 @@
 # Commission Calculator Agent
 
-Computes commissions, SPIFs, and quota attainment per rep.
-
 ## What it does
 
-- 1. 
+- Calculate base commission from closed deals against plan rules
+- Apply accelerators for over-quota attainment automatically
+- Compute SPIFs and bonuses for qualifying deals
+- Produce per-rep attainment summaries for the period
+- Model payout scenarios for deals still in the pipeline
 
 ## Usage
 
 ```bash
-python3 sales/commission_calculator_agent/agent.py
+python3 sales/commission_calculator/agent.py
 ```
 
 ## Category

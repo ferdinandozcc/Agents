@@ -1,15 +1,17 @@
 # Content Calendar Planner Agent
 
-Builds a monthly content calendar aligned to campaigns and launches.
-
 ## What it does
 
-- 1. 
+- Map content to business goals, campaigns, and product launches
+- Plan content mix across blog, social, email, video, and webinar
+- Assign topics, formats, owners, and publish dates
+- Ensure SEO keyword coverage throughout the plan
+- Build in evergreen and seasonal content for balance
 
 ## Usage
 
 ```bash
-python3 marketing/content_calendar_planner_agent/agent.py
+python3 marketing/content_calendar_planner/agent.py
 ```
 
 ## Category

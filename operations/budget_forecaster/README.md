@@ -1,15 +1,17 @@
 # Budget Forecaster Agent
 
-Projects spend vs budget across departments and flags variances.
-
 ## What it does
 
-- 1. 
+- Load actuals vs budget by department and category
+- Project end-of-period spend based on current run rate
+- Flag departments trending over or under budget
+- Model base, optimistic, and conservative spend scenarios
+- Produce a clear variance analysis report for leadership
 
 ## Usage
 
 ```bash
-python3 operations/budget_forecaster_agent/agent.py
+python3 operations/budget_forecaster/agent.py
 ```
 
 ## Category

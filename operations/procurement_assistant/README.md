@@ -1,15 +1,17 @@
 # Procurement Assistant Agent
 
-Manages RFPs, vendor comparisons, and purchase order workflows.
-
 ## What it does
 
-- 1. 
+- Draft RFP documents from requirements descriptions
+- Build vendor comparison matrices with scoring criteria
+- Track PO status and approval workflows
+- Flag purchases approaching budget thresholds
+- Maintain a vendor shortlist with ratings and notes
 
 ## Usage
 
 ```bash
-python3 operations/procurement_assistant_agent/agent.py
+python3 operations/procurement_assistant/agent.py
 ```
 
 ## Category

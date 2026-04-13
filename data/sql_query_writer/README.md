@@ -1,15 +1,17 @@
 # SQL Query Writer Agent
 
-Converts natural language questions into optimized SQL queries.
-
 ## What it does
 
-- 1. 
+- Understand the business question being asked clearly
+- Identify the relevant tables and joins needed for the query
+- Write clean, readable, and optimized SQL with comments
+- Add comments explaining logic for complex query sections
+- Suggest indexes if query performance is a concern
 
 ## Usage
 
 ```bash
-python3 data/sql_query_writer_agent/agent.py
+python3 data/sql_query_writer/agent.py
 ```
 
 ## Category

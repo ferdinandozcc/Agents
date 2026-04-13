@@ -1,15 +1,17 @@
 # Code Reviewer Agent
 
-Reviews PRs for bugs, style, security, and performance issues.
-
 ## What it does
 
-- 1. 
+- Check for correctness including logic errors and edge cases
+- Identify security risks such as injection and exposed secrets
+- Assess performance for N+1 queries and memory leaks
+- Review style including naming conventions and readability
+- Evaluate test coverage and test quality for new code
 
 ## Usage
 
 ```bash
-python3 engineering/code_reviewer_agent/agent.py
+python3 engineering/code_reviewer/agent.py
 ```
 
 ## Category

@@ -1,15 +1,17 @@
 # Pipeline Forecaster Agent
 
-Predicts close probability per deal and projects monthly revenue.
-
 ## What it does
 
-- 1. 
+- Score each deal's close probability based on stage and engagement
+- Apply weighted pipeline math to project monthly revenue
+- Identify deals at risk of slipping out of the current period
+- Provide commit, best case, and pipeline revenue scenarios
+- Flag forecast vs target gaps and suggest corrective actions
 
 ## Usage
 
 ```bash
-python3 sales/pipeline_forecaster_agent/agent.py
+python3 sales/pipeline_forecaster/agent.py
 ```
 
 ## Category

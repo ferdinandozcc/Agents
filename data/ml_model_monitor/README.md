@@ -1,15 +1,17 @@
 # ML Model Monitor Agent
 
-Tracks model performance drift and triggers retraining alerts.
-
 ## What it does
 
-- 1. 
+- Monitor model performance metrics over time including accuracy and AUC
+- Detect concept drift and data distribution shifts
+- Alert when performance drops below defined thresholds
+- Diagnose the likely causes of model degradation
+- Trigger retraining workflows when significant drift is confirmed
 
 ## Usage
 
 ```bash
-python3 data/ml_model_monitor_agent/agent.py
+python3 data/ml_model_monitor/agent.py
 ```
 
 ## Category

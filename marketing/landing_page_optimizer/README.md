@@ -1,15 +1,17 @@
 # Landing Page Optimizer Agent
 
-Reviews landing pages and suggests copy, layout, and CTA improvements.
-
 ## What it does
 
-- 1. 
+- Review landing page copy for clarity and persuasion
+- Assess visual hierarchy and CTA placement on the page
+- Check for friction points in the conversion flow
+- Suggest A/B test hypotheses ranked by potential impact
+- Review social proof, trust signals, and objection handling
 
 ## Usage
 
 ```bash
-python3 marketing/landing_page_optimizer_agent/agent.py
+python3 marketing/landing_page_optimizer/agent.py
 ```
 
 ## Category

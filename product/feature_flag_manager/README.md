@@ -1,15 +1,17 @@
 # Feature Flag Manager Agent
 
-Tracks active flags, rollout status, and recommends cleanup candidates.
-
 ## What it does
 
-- 1. 
+- Inventory all active feature flags with age, owner, and rollout %
+- Flag old or fully-rolled-out flags that should be cleaned up
+- Track flags by environment: dev, staging, and prod
+- Document the purpose and expected removal date per flag
+- Alert on flags with no owner or past their sunset date
 
 ## Usage
 
 ```bash
-python3 product/feature_flag_manager_agent/agent.py
+python3 product/feature_flag_manager/agent.py
 ```
 
 ## Category

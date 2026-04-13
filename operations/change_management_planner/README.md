@@ -1,15 +1,17 @@
 # Change Management Planner Agent
 
-Plans org change initiatives with stakeholder comms and training plans.
-
 ## What it does
 
-- 1. 
+- Assess the scope and impact of a change initiative
+- Identify and map stakeholders by support level
+- Create a communication plan with messages per audience
+- Build a training and enablement plan for the change
+- Define success metrics and adoption milestones
 
 ## Usage
 
 ```bash
-python3 operations/change_management_planner_agent/agent.py
+python3 operations/change_management_planner/agent.py
 ```
 
 ## Category

@@ -1,15 +1,17 @@
 # Cohort Analysis Agent
 
-Builds and interprets cohort analyses for retention and engagement.
-
 ## What it does
 
-- 1. 
+- Define cohorts by acquisition date, channel, or feature usage
+- Calculate retention rates at D1, D7, D30, and D90 intervals
+- Compare cohort performance across different time periods
+- Identify which cohorts retain best and investigate why
+- Translate cohort data into actionable product recommendations
 
 ## Usage
 
 ```bash
-python3 data/cohort_analysis_agent/agent.py
+python3 data/cohort_analysis/agent.py
 ```
 
 ## Category

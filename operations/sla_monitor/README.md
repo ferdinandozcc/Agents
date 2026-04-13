@@ -1,15 +1,17 @@
 # SLA Monitor Agent
 
-Tracks SLA compliance across teams and alerts on approaching breaches.
-
 ## What it does
 
-- 1. 
+- Track open tickets and requests against their SLA deadlines
+- Alert when an item is within 20% of its SLA window
+- Flag breached SLAs with time-over and responsible team
+- Produce daily SLA compliance reports by team
+- Trend SLA performance over time to identify patterns
 
 ## Usage
 
 ```bash
-python3 operations/sla_monitor_agent/agent.py
+python3 operations/sla_monitor/agent.py
 ```
 
 ## Category

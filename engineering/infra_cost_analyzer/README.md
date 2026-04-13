@@ -1,15 +1,17 @@
 # Infrastructure Cost Analyzer Agent
 
-Reviews cloud spend and recommends rightsizing and cost optimizations.
-
 ## What it does
 
-- 1. 
+- Analyze cloud spend by service, team, and environment
+- Identify over-provisioned resources such as oversized instances
+- Flag dev and test resources left running in production configs
+- Recommend reserved instance or savings plan purchases
+- Project cost savings from each recommended change
 
 ## Usage
 
 ```bash
-python3 engineering/infrastructure_cost_analyzer_agent/agent.py
+python3 engineering/infra_cost_analyzer/agent.py
 ```
 
 ## Category

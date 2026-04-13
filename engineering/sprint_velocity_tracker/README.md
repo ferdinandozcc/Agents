@@ -1,15 +1,17 @@
 # Sprint Velocity Tracker Agent
 
-Tracks story points, velocity trends, and capacity for planning.
-
 ## What it does
 
-- 1. 
+- Track story points completed per sprint accurately
+- Calculate rolling average velocity over the last 3 to 6 sprints
+- Flag velocity drops and help investigate root causes
+- Forecast delivery dates for roadmap items based on velocity
+- Capacity plan for upcoming sprints accounting for PTO
 
 ## Usage
 
 ```bash
-python3 engineering/sprint_velocity_tracker_agent/agent.py
+python3 engineering/sprint_velocity_tracker/agent.py
 ```
 
 ## Category

@@ -1,15 +1,17 @@
 # Documentation Generator Agent
 
-Generates inline code comments and module-level docs from source.
-
 ## What it does
 
-- 1. 
+- Read source code and generate docstrings and inline comments
+- Write module-level READMEs explaining purpose and usage
+- Generate changelog entries from commit diffs
+- Create architecture decision records for key design choices
+- Keep docs in sync with code changes over time
 
 ## Usage
 
 ```bash
-python3 engineering/documentation_generator_agent/agent.py
+python3 engineering/documentation_generator/agent.py
 ```
 
 ## Category

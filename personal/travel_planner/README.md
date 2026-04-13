@@ -1,15 +1,17 @@
 # Travel Planner Agent
 
-Books trips, finds flights, hotels, and builds day-by-day itineraries.
-
 ## What it does
 
-- 1. 
+- Understand destination, dates, budget, and travel preferences
+- Search for flight and hotel options matching the brief
+- Build a detailed day-by-day itinerary with times
+- Include restaurant recommendations, transport tips, and must-sees
+- Flag visa requirements, safety advisories, and packing tips
 
 ## Usage
 
 ```bash
-python3 personal/travel_planner_agent/agent.py
+python3 personal/travel_planner/agent.py
 ```
 
 ## Category

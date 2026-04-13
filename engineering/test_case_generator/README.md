@@ -1,15 +1,17 @@
 # Test Case Generator Agent
 
-Writes unit and integration tests from function signatures or specs.
-
 ## What it does
 
-- 1. 
+- Analyze function signatures, specs, or user stories
+- Generate unit tests covering happy path, edge cases, and errors
+- Write integration tests for API endpoints and services
+- Suggest test data and fixture requirements
+- Identify untested code paths that need coverage
 
 ## Usage
 
 ```bash
-python3 engineering/test_case_generator_agent/agent.py
+python3 engineering/test_case_generator/agent.py
 ```
 
 ## Category

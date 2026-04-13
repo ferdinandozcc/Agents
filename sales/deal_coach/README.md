@@ -1,15 +1,17 @@
 # Deal Coach Agent
 
-Reviews deal stages and recommends next best actions to advance pipeline.
-
 ## What it does
 
-- 1. 
+- Assess deal health across stage, engagement, and timeline
+- Identify missing information using MEDDIC or BANT frameworks
+- Flag risks such as no champion or single-threaded deals
+- Recommend specific next best actions to advance the deal
+- Suggest talk tracks for handling common objections
 
 ## Usage
 
 ```bash
-python3 sales/deal_coach_agent/agent.py
+python3 sales/deal_coach/agent.py
 ```
 
 ## Category

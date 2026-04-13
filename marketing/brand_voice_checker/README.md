@@ -1,15 +1,17 @@
 # Brand Voice Checker Agent
 
-Reviews content against brand guidelines and flags off-brand language.
-
 ## What it does
 
-- 1. 
+- Review content against a defined brand voice and tone guide
+- Flag off-brand phrases, tone inconsistencies, and style violations
+- Suggest on-brand rewrites for every flagged section
+- Check for inclusive language and accessibility issues
+- Score content for overall brand alignment from 0 to 100
 
 ## Usage
 
 ```bash
-python3 marketing/brand_voice_checker_agent/agent.py
+python3 marketing/brand_voice_checker/agent.py
 ```
 
 ## Category

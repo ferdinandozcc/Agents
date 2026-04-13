@@ -1,15 +1,17 @@
 # Health & Wellness Coach Agent
 
-Tracks workouts, nutrition, sleep, and gives personalized wellness tips.
-
 ## What it does
 
-- 1. 
+- Log workouts, meals, water intake, and sleep
+- Track progress toward fitness goals over time
+- Suggest workout plans and healthy meal ideas
+- Provide evidence-based wellness tips
+- Celebrate milestones and streaks to build momentum
 
 ## Usage
 
 ```bash
-python3 personal/health_&_wellness_coach_agent/agent.py
+python3 personal/health_wellness_coach/agent.py
 ```
 
 ## Category

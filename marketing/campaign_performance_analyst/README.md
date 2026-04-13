@@ -1,15 +1,17 @@
 # Campaign Performance Analyst Agent
 
-Pulls ad metrics and surfaces which campaigns are over/underperforming.
-
 ## What it does
 
-- 1. 
+- Analyze campaign metrics including CTR, CPC, CPL, and ROAS
+- Identify top and bottom performers by campaign and ad set
+- Flag budget waste in high-spend, low-conversion campaigns
+- Recommend budget reallocation across channels
+- Produce a weekly performance dashboard narrative
 
 ## Usage
 
 ```bash
-python3 marketing/campaign_performance_analyst_agent/agent.py
+python3 marketing/campaign_performance_analyst/agent.py
 ```
 
 ## Category

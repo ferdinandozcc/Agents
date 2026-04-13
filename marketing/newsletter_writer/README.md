@@ -1,15 +1,17 @@
 # Newsletter Writer Agent
 
-Writes weekly newsletters from a brief, with subject line variants.
-
 ## What it does
 
-- 1. 
+- Write subject lines in 3 variants: personalized, curiosity, and value
+- Write an opening hook of 1-2 sentences to compel reading
+- Write the main story or insight in 300 to 500 words
+- Add supporting sections such as quick links and tips
+- Include one clear CTA as the reader's next step
 
 ## Usage
 
 ```bash
-python3 marketing/newsletter_writer_agent/agent.py
+python3 marketing/newsletter_writer/agent.py
 ```
 
 ## Category

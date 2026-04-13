@@ -1,15 +1,17 @@
 # Churn Predictor Agent
 
-Identifies at-risk accounts using usage and engagement signals.
-
 ## What it does
 
-- 1. 
+- Analyze account health signals including login frequency and usage
+- Score each account's churn risk as high, medium, or low
+- Identify the primary risk driver for each at-risk account
+- Recommend targeted save actions per account
+- Prioritize accounts by ARR multiplied by churn risk for impact
 
 ## Usage
 
 ```bash
-python3 sales/churn_predictor_agent/agent.py
+python3 sales/churn_predictor/agent.py
 ```
 
 ## Category

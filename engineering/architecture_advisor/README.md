@@ -1,15 +1,17 @@
 # Architecture Advisor Agent
 
-Reviews system designs and suggests improvements for scalability.
-
 ## What it does
 
-- 1. 
+- Review architecture diagrams or descriptions for issues
+- Identify single points of failure and performance bottlenecks
+- Assess for scalability, reliability, and maintainability
+- Suggest relevant patterns such as CQRS, saga, and circuit breaker
+- Provide trade-off analysis across simplicity, resilience, and performance
 
 ## Usage
 
 ```bash
-python3 engineering/architecture_advisor_agent/agent.py
+python3 engineering/architecture_advisor/agent.py
 ```
 
 ## Category

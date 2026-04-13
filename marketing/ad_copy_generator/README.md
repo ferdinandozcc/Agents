@@ -1,15 +1,17 @@
 # Ad Copy Generator Agent
 
-Writes A/B variants of ad copy for Google, Meta, and LinkedIn.
-
 ## What it does
 
-- 1. 
+- Write Google Search ads with headlines and descriptions in 3 variants
+- Write Meta and Facebook ads in primary text and headline formats
+- Write LinkedIn Sponsored Content with professional, lead-gen focus
+- Create multiple angle variants covering pain, benefit, and urgency
+- Perform ad copy QA for character limits and policy compliance
 
 ## Usage
 
 ```bash
-python3 marketing/ad_copy_generator_agent/agent.py
+python3 marketing/ad_copy_generator/agent.py
 ```
 
 ## Category

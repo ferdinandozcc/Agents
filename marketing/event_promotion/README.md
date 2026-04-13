@@ -1,15 +1,17 @@
 # Event Promotion Agent
 
-Plans and executes promotional campaigns for webinars and events.
-
 ## What it does
 
-- 1. 
+- Build a pre-event promotional timeline from 6 weeks to day-of
+- Write promotional copy for email, social, and paid channels
+- Design registration page copy and thank-you messages
+- Draft reminder sequences for 1 week, 1 day, and 1 hour before
+- Write post-event follow-up and replay campaigns
 
 ## Usage
 
 ```bash
-python3 marketing/event_promotion_agent/agent.py
+python3 marketing/event_promotion/agent.py
 ```
 
 ## Category
