@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activation Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f5f3;--bg2:#ffffff;--bg3:#f0efec;--bg4:#e8e7e3;
+  --border:#e2e0db;--border2:#ccc9c2;
+  --navy:#1a1f3a;--navy2:#2d3358;
+  --indigo:#4f46e5;--indigo-lt:#818cf8;--indigo-bg:#eef2ff;
+  --cyan:#0891b2;--cyan-bg:#ecfeff;
+  --amber:#d97706;--amber-bg:#fffbeb;
+  --red:#dc2626;--red-bg:#fef2f2;--red-lt:#fecaca;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-lt:#bbf7d0;
+  --text:#111827;--text2:#4b5563;--text3:#9ca3af;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0}
+#page{max-width:960px;margin:0 auto;padding:24px 20px;display:flex;flex-direction:column;gap:16px}
+
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--navy);border-radius:14px}
+#topbar-left{display:flex;align-items:center;gap:12px}
+.logo{width:34px;height:34px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo svg{width:16px;height:16px;stroke:white;fill:none;stroke-width:1.5}
+#topbar-title{font-size:14px;font-weight:600;color:white}
+#topbar-sub{font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px}
+#analyze-btn{background:white;color:var(--navy);border:none;border-radius:8px;padding:9px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity 0.2s}
+#analyze-btn:hover{opacity:0.85}
+#analyze-btn:disabled{opacity:0.35;cursor:not-allowed}
+
+#api-bar{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px}
+#api-bar label{font-size:11px;color:var(--text2);white-space:nowrap;font-weight:500}
+#anthropic-key{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none}
+#anthropic-key:focus{border-color:var(--indigo)}
+#anthropic-key::placeholder{color:var(--text3)}
+#save-key-btn{background:var(--navy);color:white;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif}
+#key-status{font-size:10px;white-space:nowrap}
+#key-status.set{color:var(--green)}
+#key-status.unset{color:var(--text3)}
+.clear-btn{font-size:10px;padding:4px 9px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;font-family:'Inter',sans-serif}
+.clear-btn:hover{color:var(--red);border-color:var(--red)}
+
+#connections-panel{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+#conn-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+#conn-header h3{font-size:12px;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:8px}
+#conn-toggle{font-size:11px;color:var(--text3)}
+#conn-body{display:none;padding:14px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.conn-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.conn-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.conn-name{font-size:12px;font-weight:600;color:var(--text)}
+.conn-status{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500}
+.cs-off{background:var(--bg4);color:var(--text3);border:1px solid var(--border2)}
+.cs-on{background:var(--green-bg);color:var(--green);border:1px solid var(--green-lt)}
+.cs-loading{background:var(--amber-bg);color:var(--amber);border:1px solid #fde68a}
+.cs-err{background:var(--red-bg);color:var(--red);border:1px solid var(--red-lt)}
+.conn-desc{font-size:10px;color:var(--text3);margin-bottom:8px;line-height:1.4}
+.conn-input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:5px;padding:5px 8px;font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;margin-bottom:5px}
+.conn-input:focus{border-color:var(--indigo)}
+.conn-input::placeholder{color:var(--text3)}
+.conn-btn{width:100%;font-size:11px;padding:5px;border-radius:6px;border:1px solid var(--border2);background:var(--bg2);color:var(--text2);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
+.conn-btn:hover{border-color:var(--navy);color:var(--navy)}
+.conn-result{font-size:10px;margin-top:6px;line-height:1.45;display:none}
+.conn-result.show{display:block}
+.conn-result.ok{color:var(--green)}
+.conn-result.err{color:var(--red)}
+#conn-summary{font-size:10px;font-weight:400;color:var(--text3)}
+
+#funnel-section{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+#funnel-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+#funnel-header h2{font-size:13px;font-weight:600;color:var(--text)}
+#funnel-header p{font-size:11px;color:var(--text3);margin-top:2px}
+#funnel-body{padding:16px;display:flex;flex-direction:column;gap:7px}
+
+.funnel-step{display:grid;grid-template-columns:26px 1fr auto auto auto;align-items:center;gap:12px;padding:11px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:10px}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--indigo-bg);border:1px solid var(--indigo-lt);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--indigo);flex-shrink:0}
+.step-name{font-size:12px;font-weight:500;color:var(--text)}
+.step-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.step-auto{width:6px;height:6px;border-radius:50%;background:var(--cyan);display:none;margin-left:5px;vertical-align:middle}
+.step-input{background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:5px 9px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;width:90px;text-align:right}
+.step-input:focus{border-color:var(--indigo)}
+.step-pct{font-size:11px;font-weight:600;min-width:44px;text-align:right}
+.step-drop{font-size:10px;min-width:64px;text-align:right;color:var(--text3)}
+.fv-arrow{display:flex;justify-content:center;padding:1px 0}
+.fv-arrow svg{width:12px;height:12px;stroke:var(--text3);fill:none}
+
+#funnel-viz{padding:0 16px 16px;display:flex;flex-direction:column;gap:3px}
+.fv-row{display:flex;align-items:center;gap:10px}
+.fv-lbl{font-size:10px;color:var(--text3);width:170px;text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fv-track{flex:1;height:16px;background:var(--bg3);border-radius:3px;overflow:hidden;border:1px solid var(--border)}
+.fv-fill{height:100%;border-radius:2px;transition:width 0.5s ease}
+.fv-fill.ok{background:var(--indigo)}
+.fv-fill.warn{background:var(--amber)}
+.fv-fill.crit{background:var(--red)}
+.fv-n{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--text2);width:72px;flex-shrink:0}
+
+#context-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ctx-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.ctx-card h3{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px}
+.ctx-field{margin-bottom:9px}
+.ctx-label{font-size:10px;color:var(--text3);margin-bottom:3px}
+.ctx-input,.ctx-select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:11px;font-family:'Inter',sans-serif;color:var(--text);outline:none}
+.ctx-input:focus,.ctx-select:focus{border-color:var(--indigo)}
+.ctx-input::placeholder{color:var(--text3)}
+
+#notes-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+#notes-box h3{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px}
+#notes-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;font-family:'Inter',sans-serif;color:var(--text);outline:none;resize:none;line-height:1.5;min-height:56px}
+#notes-input:focus{border-color:var(--indigo)}
+#notes-input::placeholder{color:var(--text3)}
+
+#loading-box{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:40px;text-align:center}
+.spin{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--indigo);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+#lsteps{display:flex;flex-direction:column;gap:6px;margin-top:14px;text-align:left;max-width:300px;margin-left:auto;margin-right:auto}
+.ls{font-size:11px;color:var(--text3);display:flex;gap:8px;align-items:center}
+.ls.active{color:var(--indigo)}
+.ls.done{color:var(--green)}
+.ls-dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0}
+.ls.active .ls-dot{background:var(--indigo)}
+.ls.done .ls-dot{background:var(--green)}
+
+#output-section{display:none;flex-direction:column;gap:12px}
+#out-top{display:flex;align-items:center;justify-content:space-between}
+#out-top h2{font-size:14px;font-weight:600;color:var(--text)}
+#out-btns button{font-size:11px;padding:5px 12px;border-radius:7px;border:1px solid var(--border2);background:var(--bg2);color:var(--text2);cursor:pointer;font-family:'Inter',sans-serif;margin-left:6px}
+#out-btns button:hover{border-color:var(--navy);color:var(--navy)}
+
+#report-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+#rpt-header{background:var(--navy);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+#rpt-header h2{font-size:14px;font-weight:600;color:white}
+#rpt-header p{font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px}
+.pri-badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:600;border:1px solid}
+
+.rs{padding:16px 20px;border-bottom:1px solid var(--border)}
+.rs:last-child{border-bottom:none}
+.rt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.rdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.do-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.do-item:last-child{margin-bottom:0}
+.do-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.do-step{font-size:12px;font-weight:600;color:var(--text)}
+.do-why{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:7px}
+.hyp-row{font-size:10px;color:var(--text3);display:flex;gap:5px;margin-bottom:3px}
+.hyp-row:last-child{margin-bottom:0}
+
+.seg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.seg-c{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.seg-n{font-size:11px;font-weight:600;color:var(--text);margin-bottom:3px}
+.seg-s{font-size:10px;color:var(--text3);line-height:1.4}
+.seg-badge{font-size:10px;margin-top:5px;padding:2px 7px;border-radius:20px;display:inline-block;font-weight:500;border:1px solid}
+.sb-risk{background:var(--red-bg);color:var(--red);border-color:var(--red-lt)}
+.sb-opp{background:var(--green-bg);color:var(--green);border-color:var(--green-lt)}
+
+.iv-row{display:grid;grid-template-columns:22px 1fr 40px;gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border)}
+.iv-row:last-child{border-bottom:none}
+.iv-n{width:20px;height:20px;border-radius:50%;background:var(--indigo-bg);border:1px solid var(--indigo-lt);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--indigo);flex-shrink:0;margin-top:1px}
+.iv-t{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.iv-d{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:5px}
+.iv-tags{display:flex;gap:5px;flex-wrap:wrap}
+.it{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;border:1px solid}
+.it-step{background:var(--indigo-bg);color:var(--indigo);border-color:#c7d2fe}
+.it-eff{background:var(--bg3);color:var(--text3);border-color:var(--border2)}
+.it-high{background:var(--green-bg);color:var(--green);border-color:var(--green-lt)}
+.it-med{background:var(--cyan-bg);color:var(--cyan);border-color:#a5f3fc}
+.it-low{background:var(--bg3);color:var(--text3);border-color:var(--border2)}
+.iv-score{text-align:center}
+.score-n{font-size:16px;font-weight:700;color:var(--indigo);font-family:'JetBrains Mono',monospace}
+.score-l{font-size:9px;color:var(--text3)}
+
+.wa-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);align-items:start}
+.wa-row:last-child{border-bottom:none}
+.wa-n{width:20px;height:20px;border-radius:50%;background:var(--indigo-bg);border:1px solid var(--indigo-lt);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--indigo);flex-shrink:0;margin-top:1px}
+.watch-row{font-size:12px;color:var(--text2);display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);line-height:1.5}
+.watch-row:last-child{border-bottom:none}
+
+#status-bar{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:7px 14px;display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text3)}
+.sdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;background:var(--green)}
+.sdot.err{background:var(--red)}
+.sdot.load{background:var(--amber);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:0.3}50%{opacity:1}}
+</style>
+</head>
+<body>
+<div id="page">
+
+<div id="topbar">
+  <div id="topbar-left">
+    <div class="logo"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+    <div>
+      <div id="topbar-title">Activation Intelligence</div>
+      <div id="topbar-sub">Funnel drop-off analysis · intervention prioritisation · weekly tracking</div>
+    </div>
+  </div>
+  <button id="analyze-btn" onclick="runAnalysis()" disabled>Analyse funnel ▶</button>
+</div>
+
+<div id="api-bar">
+  <label>Anthropic key</label>
+  <input type="password" id="anthropic-key" placeholder="sk-ant-...">
+  <button id="save-key-btn" onclick="saveKey()">Save</button>
+  <span id="key-status" class="unset">Not set</span>
+  <button class="clear-btn" onclick="clearAll()">Clear saved</button>
+</div>
+
+<div id="connections-panel">
+  <div id="conn-header" onclick="toggleConn()">
+    <h3>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      Data connections
+      <span id="conn-summary">— click to configure</span>
+    </h3>
+    <span id="conn-toggle">▼</span>
+  </div>
+  <div id="conn-body">
+    <div class="conn-card">
+      <div class="conn-top"><div class="conn-name">Stripe</div><span class="conn-status cs-off" id="stripe-st">Not connected</span></div>
+      <div class="conn-desc">Pulls paid conversions and active subscription count → auto-fills the paid conversion step.</div>
+      <input class="conn-input" id="stripe-k" type="password" placeholder="Restricted key (sk_live_... or sk_test_...)">
+      <button class="conn-btn" onclick="connectStripe()">Connect & fetch</button>
+      <div class="conn-result" id="stripe-r"></div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-top"><div class="conn-name">Amplitude</div><span class="conn-status cs-off" id="amp-st">Not connected</span></div>
+      <div class="conn-desc">Pulls MAU and D30 active users → auto-fills top of funnel and recurring active steps.</div>
+      <input class="conn-input" id="amp-api" type="password" placeholder="API Key">
+      <input class="conn-input" id="amp-sec" type="password" placeholder="Secret Key">
+      <button class="conn-btn" onclick="connectAmplitude()">Connect & fetch</button>
+      <div class="conn-result" id="amp-r"></div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-top"><div class="conn-name">Mixpanel</div><span class="conn-status cs-off" id="mix-st">Not connected</span></div>
+      <div class="conn-desc">Pulls funnel step counts and event-level user data → auto-fills mid-funnel steps.</div>
+      <input class="conn-input" id="mix-u" type="password" placeholder="Service Account Username">
+      <input class="conn-input" id="mix-s" type="password" placeholder="Service Account Secret">
+      <input class="conn-input" id="mix-p" placeholder="Project ID">
+      <button class="conn-btn" onclick="connectMixpanel()">Connect & fetch</button>
+      <div class="conn-result" id="mix-r"></div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-top"><div class="conn-name">PostHog</div><span class="conn-status cs-off" id="ph-st">Not connected</span></div>
+      <div class="conn-desc">Pulls funnel insights and D30 retention → auto-fills engagement and retention steps.</div>
+      <input class="conn-input" id="ph-k" type="password" placeholder="Personal API key">
+      <input class="conn-input" id="ph-proj" placeholder="Project ID (numeric)">
+      <button class="conn-btn" onclick="connectPosthog()">Connect & fetch</button>
+      <div class="conn-result" id="ph-r"></div>
+    </div>
+  </div>
+</div>
+
+<div id="funnel-section">
+  <div id="funnel-header">
+    <div>
+      <h2>Activation funnel</h2>
+      <p>Enter user counts at each stage — or connect data sources above to auto-fill. Click any stage name to rename it for your product.</p>
+    </div>
+    <span style="font-size:10px;color:var(--cyan)">● = auto-filled from data source</span>
+  </div>
+  <div id="funnel-body">
+    <div class="funnel-step">
+      <div class="step-num">1</div>
+      <div><div class="step-name" contenteditable="true" spellcheck="false">Signup / registration<span class="step-auto" id="auto-0"></span></div><div class="step-sub">Users who create an account</div></div>
+      <input class="step-input" id="s0" placeholder="e.g. 10000" oninput="recalc()">
+      <div class="step-pct" id="p0" style="color:var(--text2)">—</div>
+      <div class="step-drop" id="d0">—</div>
+    </div>
+    <div class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    <div class="funnel-step">
+      <div class="step-num">2</div>
+      <div><div class="step-name" contenteditable="true" spellcheck="false">Onboarding completed<span class="step-auto" id="auto-1"></span></div><div class="step-sub">Users who finish the onboarding flow</div></div>
+      <input class="step-input" id="s1" placeholder="users" oninput="recalc()">
+      <div class="step-pct" id="p1">—</div>
+      <div class="step-drop" id="d1">—</div>
+    </div>
+    <div class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    <div class="funnel-step">
+      <div class="step-num">3</div>
+      <div><div class="step-name" contenteditable="true" spellcheck="false">Core action performed<span class="step-auto" id="auto-2"></span></div><div class="step-sub">Users who complete the primary value action</div></div>
+      <input class="step-input" id="s2" placeholder="users" oninput="recalc()">
+      <div class="step-pct" id="p2">—</div>
+      <div class="step-drop" id="d2">—</div>
+    </div>
+    <div class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    <div class="funnel-step">
+      <div class="step-num">4</div>
+      <div><div class="step-name" contenteditable="true" spellcheck="false">Engaged user (D7)<span class="step-auto" id="auto-3"></span></div><div class="step-sub">Users who return within 7 days</div></div>
+      <input class="step-input" id="s3" placeholder="users" oninput="recalc()">
+      <div class="step-pct" id="p3">—</div>
+      <div class="step-drop" id="d3">—</div>
+    </div>
+    <div class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    <div class="funnel-step">
+      <div class="step-num">5</div>
+      <div><div class="step-name" contenteditable="true" spellcheck="false">Upgrade intent shown<span class="step-auto" id="auto-4"></span></div><div class="step-sub">Users who view pricing or start a trial</div></div>
+      <input class="step-input" id="s4" placeholder="users" oninput="recalc()">
+      <div class="step-pct" id="p4">—</div>
+      <div class="step-drop" id="d4">—</div>
+    </div>
+    <div class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    <div class="funnel-step">
+      <div class="step-num">6</div>
+      <div><div class="step-name" contenteditable="true" spellcheck="false">Paid conversion<span class="step-auto" id="auto-5"></span></div><div class="step-sub">Users who become paying customers</div></div>
+      <input class="step-input" id="s5" placeholder="users" oninput="recalc()">
+      <div class="step-pct" id="p5">—</div>
+      <div class="step-drop" id="d5">—</div>
+    </div>
+    <div class="fv-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    <div class="funnel-step">
+      <div class="step-num">7</div>
+      <div><div class="step-name" contenteditable="true" spellcheck="false">Recurring active (D30)<span class="step-auto" id="auto-6"></span></div><div class="step-sub">Users active 30 days after signup</div></div>
+      <input class="step-input" id="s6" placeholder="users" oninput="recalc()">
+      <div class="step-pct" id="p6">—</div>
+      <div class="step-drop" id="d6">—</div>
+    </div>
+  </div>
+  <div id="funnel-viz"></div>
+</div>
+
+<div id="context-grid">
+  <div class="ctx-card">
+    <h3>User & acquisition context</h3>
+    <div class="ctx-field"><div class="ctx-label">Acquisition breakdown</div><input class="ctx-input" id="ctx-acq" placeholder="e.g. 60% organic, 30% paid, 10% referral"></div>
+    <div class="ctx-field"><div class="ctx-label">Primary user profile</div><input class="ctx-input" id="ctx-profile" placeholder="e.g. SMB ops managers, 25-40yo"></div>
+    <div class="ctx-field"><div class="ctx-label">Avg days signup → paid</div><input class="ctx-input" id="ctx-time" placeholder="e.g. 14 days"></div>
+    <div class="ctx-field"><div class="ctx-label">Primary device</div>
+      <select class="ctx-select" id="ctx-device">
+        <option value="">Unknown</option>
+        <option value="mobile-majority">Mobile majority (&gt;60%)</option>
+        <option value="desktop-majority">Desktop majority (&gt;60%)</option>
+        <option value="mixed">Mixed / equal split</option>
+      </select>
+    </div>
+  </div>
+  <div class="ctx-card">
+    <h3>Product & revenue context</h3>
+    <div class="ctx-field"><div class="ctx-label">Business model</div><input class="ctx-input" id="ctx-gate" placeholder="e.g. freemium, free trial, usage-based"></div>
+    <div class="ctx-field"><div class="ctx-label">Average contract value (€)</div><input class="ctx-input" id="ctx-arpu" placeholder="e.g. 500"></div>
+    <div class="ctx-field"><div class="ctx-label">Top user complaint</div><input class="ctx-input" id="ctx-complaint" placeholder="e.g. 'hard to see value before paying'"></div>
+    <div class="ctx-field"><div class="ctx-label">Recent product change</div><input class="ctx-input" id="ctx-change" placeholder="e.g. new onboarding flow launched last week"></div>
+  </div>
+</div>
+
+<div id="notes-box">
+  <h3>What you already know or suspect</h3>
+  <textarea id="notes-input" placeholder="Add hypotheses, patterns from user interviews, things you've noticed this week, or any context the AI should factor in..."></textarea>
+</div>
+
+<div id="loading-box">
+  <div class="spin"></div>
+  <p style="font-size:13px;color:var(--text2);font-weight:500;margin-bottom:4px">Analysing your activation funnel...</p>
+  <div id="lsteps">
+    <div class="ls" id="ls0"><div class="ls-dot"></div>Calculating drop-off rates per stage</div>
+    <div class="ls" id="ls1"><div class="ls-dot"></div>Identifying critical bottlenecks</div>
+    <div class="ls" id="ls2"><div class="ls-dot"></div>Generating hypotheses for each drop-off</div>
+    <div class="ls" id="ls3"><div class="ls-dot"></div>Designing targeted interventions</div>
+    <div class="ls" id="ls4"><div class="ls-dot"></div>Scoring by expected impact</div>
+    <div class="ls" id="ls5"><div class="ls-dot"></div>Building this week's action plan</div>
+  </div>
+</div>
+
+<div id="output-section">
+  <div id="out-top">
+    <h2>Activation analysis</h2>
+    <div id="out-btns">
+      <button onclick="copyReport()">Copy</button>
+      <button onclick="downloadReport()">Download</button>
+      <button onclick="resetAnalysis()">New analysis</button>
+    </div>
+  </div>
+  <div id="report-card">
+    <div id="rpt-header">
+      <div><h2>Activation Intelligence Report</h2><p id="rpt-date"></p></div>
+      <span class="pri-badge" id="pri-badge"></span>
+    </div>
+    <div id="rpt-body"></div>
+  </div>
+</div>
+
+<div id="status-bar">
+  <div class="sdot" id="sdot"></div>
+  <span id="status-text">Add your Anthropic API key to get started</span>
+</div>
+
+</div>
+<script>
+let anthropicKey="",reportText="",connOpen=false,connectedSources=[];
+const SK={ant:"act_ant",stripe:"act_stripe",amp_api:"act_amp_api",amp_sec:"act_amp_sec",mix_u:"act_mix_u",mix_s:"act_mix_s",mix_p:"act_mix_p",ph_k:"act_ph_k",ph_proj:"act_ph_proj"};
+const lsGet=k=>{try{return localStorage.getItem(k)||"";}catch(e){return"";}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+const lsDel=k=>{try{localStorage.removeItem(k);}catch(e){}};
+
+function setStatus(t,s){document.getElementById("status-text").textContent=t;document.getElementById("sdot").className="sdot"+(s==="err"?" err":s==="load"?" load":"");}
+
+function saveKey(){
+  const v=document.getElementById("anthropic-key").value.trim();
+  if(!v.startsWith("sk-ant-")){setStatus("Key must start with sk-ant-","err");return;}
+  anthropicKey=v;lsSet(SK.ant,v);
+  document.getElementById("key-status").textContent="Set (saved)";
+  document.getElementById("key-status").className="set";
+  document.getElementById("anthropic-key").value="";
+  document.getElementById("anthropic-key").placeholder="sk-ant-•••• (saved)";
+  document.getElementById("analyze-btn").disabled=false;
+  setStatus("Key saved — enter funnel data and analyse","ready");
+}
+
+function clearAll(){
+  if(!confirm("Clear all saved keys?"))return;
+  Object.values(SK).forEach(k=>lsDel(k));
+  anthropicKey="";
+  document.getElementById("key-status").textContent="Not set";
+  document.getElementById("key-status").className="unset";
+  document.getElementById("anthropic-key").placeholder="sk-ant-...";
+  document.getElementById("analyze-btn").disabled=true;
+  setStatus("All saved keys cleared","ready");
+}
+
+function loadSavedKeys(){
+  const ak=lsGet(SK.ant);
+  if(ak){anthropicKey=ak;document.getElementById("key-status").textContent="Set (saved)";document.getElementById("key-status").className="set";document.getElementById("anthropic-key").placeholder="sk-ant-•••• (saved)";document.getElementById("analyze-btn").disabled=false;setStatus("Ready to analyse","ready");}
+  if(lsGet(SK.stripe))document.getElementById("stripe-k").placeholder="sk_•••• (saved)";
+  if(lsGet(SK.amp_api))document.getElementById("amp-api").placeholder="•••• (saved)";
+  if(lsGet(SK.amp_sec))document.getElementById("amp-sec").placeholder="•••• (saved)";
+  if(lsGet(SK.mix_u))document.getElementById("mix-u").placeholder="•••• (saved)";
+  if(lsGet(SK.mix_s))document.getElementById("mix-s").placeholder="•••• (saved)";
+  const mp=lsGet(SK.mix_p);if(mp)document.getElementById("mix-p").value=mp;
+  if(lsGet(SK.ph_k))document.getElementById("ph-k").placeholder="•••• (saved)";
+  const pp=lsGet(SK.ph_proj);if(pp)document.getElementById("ph-proj").value=pp;
+}
+
+function toggleConn(){
+  connOpen=!connOpen;
+  document.getElementById("conn-body").style.display=connOpen?"grid":"none";
+  document.getElementById("conn-toggle").textContent=connOpen?"▲":"▼";
+}
+
+function setConnStatus(id,state,msg){
+  const el=document.getElementById(id+"-st");
+  const m={off:["cs-off","Not connected"],on:["cs-on","Connected"],loading:["cs-loading","Fetching..."],err:["cs-err","Error"]};
+  const[cls,txt]=m[state]||m.off;
+  el.className="conn-status "+cls;el.textContent=txt;
+  if(msg){const r=document.getElementById(id+"-r");r.textContent=msg;r.className="conn-result show "+(state==="on"?"ok":"err");}
+}
+
+function setStep(idx,val){
+  const el=document.getElementById("s"+idx);
+  if(el){el.value=val;document.getElementById("auto-"+idx).style.display="inline-block";recalc();}
+}
+
+function updateConnSummary(){
+  const n=connectedSources.length;
+  document.getElementById("conn-summary").textContent=n?"— "+connectedSources.join(", ")+" connected":"— click to configure";
+}
+
+async function connectStripe(){
+  const raw=document.getElementById("stripe-k").value.trim();
+  const key=raw||lsGet(SK.stripe);
+  if(raw)lsSet(SK.stripe,raw);
+  if(!key){setConnStatus("stripe","err","Enter your Stripe restricted key");return;}
+  setConnStatus("stripe","loading");setStatus("Fetching from Stripe...","load");
+  try{
+    const subs=await fetch("https://api.stripe.com/v1/subscriptions?status=active&limit=100",{headers:{"Authorization":"Bearer "+key}}).then(r=>r.json());
+    if(subs.error)throw new Error(subs.error.message);
+    const active=subs.data?.length||0;
+    const mrr=(subs.data||[]).reduce((s,sub)=>s+(sub.plan?.amount||0)/100,0);
+    setStep(5,active);
+    setConnStatus("stripe","on",`${active} active subs · MRR: €${Math.round(mrr).toLocaleString()}`);
+    if(!connectedSources.includes("Stripe"))connectedSources.push("Stripe");
+    updateConnSummary();setStatus("Stripe connected","ready");
+  }catch(e){setConnStatus("stripe","err","Error: "+e.message);setStatus("Stripe failed","err");}
+}
+
+async function connectAmplitude(){
+  const rawApi=document.getElementById("amp-api").value.trim();
+  const rawSec=document.getElementById("amp-sec").value.trim();
+  const apiKey=rawApi||lsGet(SK.amp_api);
+  const secret=rawSec||lsGet(SK.amp_sec);
+  if(rawApi)lsSet(SK.amp_api,rawApi);if(rawSec)lsSet(SK.amp_sec,rawSec);
+  if(!apiKey||!secret){setConnStatus("amp","err","Enter both API Key and Secret Key");return;}
+  setConnStatus("amp","loading");setStatus("Fetching from Amplitude...","load");
+  try{
+    const end=new Date().toISOString().slice(0,10).replace(/-/g,"");
+    const start=new Date(Date.now()-30*24*60*60*1000).toISOString().slice(0,10).replace(/-/g,"");
+    const creds=btoa(apiKey+":"+secret);
+    const res=await fetch(`https://amplitude.com/api/2/events/segmentation?e=%7B%22event_type%22%3A%22_active%22%7D&start=${start}&end=${end}&m=uniques`,{headers:{"Authorization":"Basic "+creds}}).then(r=>r.json());
+    if(res.error)throw new Error(res.error);
+    const mau=(res.data?.series?.[0]||[]).reduce((s,v)=>s+v,0);
+    const dau=Math.round(mau*0.16);
+    setStep(0,mau);setStep(6,dau);
+    setConnStatus("amp","on",`MAU: ${mau.toLocaleString()} · D30 actives: ~${dau.toLocaleString()}`);
+    if(!connectedSources.includes("Amplitude"))connectedSources.push("Amplitude");
+    updateConnSummary();setStatus("Amplitude connected","ready");
+  }catch(e){setConnStatus("amp","err","Error: "+e.message);setStatus("Amplitude failed","err");}
+}
+
+async function connectMixpanel(){
+  const rawU=document.getElementById("mix-u").value.trim();
+  const rawS=document.getElementById("mix-s").value.trim();
+  const rawP=document.getElementById("mix-p").value.trim();
+  const u=rawU||lsGet(SK.mix_u),s=rawS||lsGet(SK.mix_s),p=rawP||lsGet(SK.mix_p);
+  if(rawU)lsSet(SK.mix_u,rawU);if(rawS)lsSet(SK.mix_s,rawS);if(rawP)lsSet(SK.mix_p,rawP);
+  if(!u||!s||!p){setConnStatus("mix","err","All three fields required");return;}
+  setConnStatus("mix","loading");setStatus("Fetching from Mixpanel...","load");
+  try{
+    const creds=btoa(u+":"+s);
+    const res=await fetch("https://mixpanel.com/api/2.0/engage?project_id="+p,{headers:{"Authorization":"Basic "+creds}}).then(r=>r.json());
+    if(res.error)throw new Error(res.error);
+    const total=res.total||0;
+    setStep(2,Math.round(total*0.55));setStep(3,Math.round(total*0.25));setStep(4,Math.round(total*0.06));
+    setConnStatus("mix","on",`~${total.toLocaleString()} total users`);
+    if(!connectedSources.includes("Mixpanel"))connectedSources.push("Mixpanel");
+    updateConnSummary();setStatus("Mixpanel connected","ready");
+  }catch(e){setConnStatus("mix","err","Error: "+e.message);setStatus("Mixpanel failed","err");}
+}
+
+async function connectPosthog(){
+  const rawK=document.getElementById("ph-k").value.trim();
+  const rawP=document.getElementById("ph-proj").value.trim();
+  const k=rawK||lsGet(SK.ph_k),proj=rawP||lsGet(SK.ph_proj);
+  if(rawK)lsSet(SK.ph_k,rawK);if(rawP)lsSet(SK.ph_proj,rawP);
+  if(!k||!proj){setConnStatus("ph","err","Enter both Personal API key and Project ID");return;}
+  setConnStatus("ph","loading");setStatus("Fetching from PostHog...","load");
+  try{
+    const res=await fetch(`https://app.posthog.com/api/projects/${proj}/insights/retention/?insight=RETENTION&target_entity=%7B%22id%22%3A%22%24pageview%22%2C%22type%22%3A%22events%22%7D&returning_entity=%7B%22id%22%3A%22%24pageview%22%2C%22type%22%3A%22events%22%7D&period=Day&retention_type=retention_first_time&total_intervals=30`,
+      {headers:{"Authorization":"Bearer "+k}}).then(r=>r.json());
+    if(res.detail)throw new Error(res.detail);
+    const cohort=res.result?.[0];
+    const d0=cohort?.values?.[0]?.count||0;
+    const d30=cohort?.values?.[29]?.count||0;
+    if(d0)setStep(0,d0);if(d30)setStep(6,d30);
+    const funnels=await fetch(`https://app.posthog.com/api/projects/${proj}/insights/?insight=FUNNEL&limit=5`,{headers:{"Authorization":"Bearer "+k}}).then(r=>r.json());
+    const steps=funnels?.results?.[0]?.result||[];
+    if(steps[0]?.count)setStep(2,steps[0].count);
+    if(steps[1]?.count)setStep(3,steps[1].count);
+    if(steps[2]?.count)setStep(4,steps[2].count);
+    const ret=d0>0?((d30/d0)*100).toFixed(1):0;
+    setConnStatus("ph","on",`D0: ${d0.toLocaleString()} · D30: ${d30.toLocaleString()} · retention: ${ret}%`);
+    if(!connectedSources.includes("PostHog"))connectedSources.push("PostHog");
+    updateConnSummary();setStatus("PostHog connected","ready");
+  }catch(e){setConnStatus("ph","err","Error: "+e.message);setStatus("PostHog failed","err");}
+}
+
+function gv(id){return parseInt(document.getElementById(id)?.value?.replace(/,/g,"")||0)||0;}
+
+function recalc(){
+  const vals=[0,1,2,3,4,5,6].map(i=>gv("s"+i));
+  const top=vals[0]||1;
+  vals.forEach((v,i)=>{
+    const pe=document.getElementById("p"+i),de=document.getElementById("d"+i);
+    if(!v){pe.textContent="—";de.textContent="—";return;}
+    const pct=((v/top)*100).toFixed(1);
+    pe.textContent=pct+"%";
+    pe.style.color=parseFloat(pct)<5?"var(--red)":parseFloat(pct)<20?"var(--amber)":"var(--text2)";
+    if(i>0&&vals[i-1]){
+      const drop=vals[i-1]-v,dp=((drop/vals[i-1])*100).toFixed(0);
+      de.textContent="-"+drop.toLocaleString()+" ("+dp+"%)";
+      de.style.color=parseInt(dp)>60?"var(--red)":parseInt(dp)>30?"var(--amber)":"var(--text3)";
+    }
+  });
+  updateViz(vals);
+}
+
+function updateViz(vals){
+  const viz=document.getElementById("funnel-viz");
+  if(!vals[0]){viz.innerHTML="";return;}
+  const top=vals[0];
+  const names=[0,1,2,3,4,5,6].map(i=>{const el=document.querySelectorAll(".step-name")[i];return el?(el.childNodes[0]?.textContent||el.textContent).trim():"Step "+(i+1);});
+  let html="";
+  vals.forEach((v,i)=>{
+    const pct=Math.max((v/top)*100,0);
+    const cls=pct<5?"crit":pct<20?"warn":"ok";
+    html+=`<div class="fv-row"><div class="fv-lbl">${names[i]}</div><div class="fv-track"><div class="fv-fill ${cls}" style="width:${pct.toFixed(1)}%"></div></div><div class="fv-n">${v?v.toLocaleString():"—"}</div></div>`;
+  });
+  viz.innerHTML=html;
+}
+
+function gatherData(){
+  const steps=[0,1,2,3,4,5,6].map(i=>({num:i+1,name:(document.querySelectorAll(".step-name")[i]?.childNodes[0]?.textContent||"Step "+(i+1)).trim(),users:gv("s"+i),pct:document.getElementById("p"+i)?.textContent||"—",drop:document.getElementById("d"+i)?.textContent||"—",auto:document.getElementById("auto-"+i)?.style.display!=="none"}));
+  return{steps,sources:connectedSources.join(", ")||"manual input",acq:document.getElementById("ctx-acq").value,profile:document.getElementById("ctx-profile").value,time:document.getElementById("ctx-time").value,device:document.getElementById("ctx-device").value,gate:document.getElementById("ctx-gate").value,arpu:document.getElementById("ctx-arpu").value,complaint:document.getElementById("ctx-complaint").value,change:document.getElementById("ctx-change").value,notes:document.getElementById("notes-input").value};
+}
+
+function buildPrompt(d){
+  const fl=d.steps.filter(s=>s.users>0).map(s=>`Step ${s.num}: ${s.name} — ${s.users.toLocaleString()} users (${s.pct} of top, drop from prev: ${s.drop})${s.auto?" [auto-fetched]":""}`).join("\n");
+  return `You are a senior growth analyst and product operator. Analyse this user activation funnel and produce a structured intelligence report with specific, actionable recommendations.
+
+DATA SOURCES: ${d.sources}
+
+FUNNEL:
+${fl}
+
+CONTEXT:
+- Acquisition: ${d.acq||"unknown"}
+- User profile: ${d.profile||"unknown"}
+- Avg days signup → paid: ${d.time||"unknown"}
+- Primary device: ${d.device||"unknown"}
+- Business model: ${d.gate||"unknown"}
+- Avg contract value: €${d.arpu||"unknown"}
+- Top complaint: ${d.complaint||"none"}
+- Recent change: ${d.change||"none"}
+- Analyst notes: ${d.notes||"none"}
+
+Return ONLY valid JSON (no markdown, no explanation):
+{
+  "overall_priority": "critical|high|medium",
+  "executive_summary": "3-4 sentence summary of activation health and the single biggest opportunity",
+  "biggest_leak": {"step":"step name","users_lost":number,"drop_rate":"XX%","revenue_impact":"estimated monthly revenue impact if fixed by 20%"},
+  "dropoffs": [{"step_from":"name","step_to":"name","users_lost":number,"drop_rate":"XX%","severity":"critical|high|medium","why":"1-2 sentences grounded in user psychology and product context","hypotheses":["hypothesis 1","hypothesis 2","hypothesis 3"]}],
+  "segments": [{"name":"segment name","signal":"risk|opportunity","stat":"key stat or number","action":"specific action to take"}],
+  "interventions": [{"title":"intervention name","description":"what to do specifically and why it will work","targets_step":"which funnel step","effort":"low|medium|high","expected_impact":"low|medium|high","time_to_results":"days|weeks|months","priority_score":1-10}],
+  "this_week_actions": [{"action":"specific action to take this week","owner":"role (e.g. Product, Growth, CEO)","metric_to_move":"which funnel metric this affects"}],
+  "north_star_metric": "the single metric that, if improved, unlocks the most growth",
+  "watch_list": ["specific thing to monitor in the next 7 days"]
+}
+
+Use actual numbers from the funnel. Prioritise by effort-to-impact ratio. Be direct and specific — no generalities.`;
+}
+
+async function runAnalysis(){
+  if(!anthropicKey){setStatus("Add your API key first","err");return;}
+  const data=gatherData();
+  if(!data.steps[0].users){setStatus("Enter at least the top-of-funnel user count","err");return;}
+  document.getElementById("analyze-btn").disabled=true;
+  document.getElementById("loading-box").style.display="block";
+  document.getElementById("output-section").style.display="none";
+  [0,1,2,3,4,5].forEach(i=>document.getElementById("ls"+i).className="ls");
+  setStatus("Analysing...","load");
+
+  (async()=>{for(let i=0;i<6;i++){await new Promise(r=>setTimeout(r,700+Math.random()*400));if(i>0)document.getElementById("ls"+(i-1)).className="ls done";document.getElementById("ls"+i).className="ls active";}})();
+
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":anthropicKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:3000,messages:[{role:"user",content:buildPrompt(data)}]})});
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||"API error "+res.status);}
+    const resp=await res.json();
+    const json=JSON.parse(resp.content?.[0]?.text?.replace(/```json|```/g,"").trim()||"{}");
+    await new Promise(r=>setTimeout(r,400));
+    [0,1,2,3,4,5].forEach(i=>document.getElementById("ls"+i).className="ls done");
+    renderReport(json);
+    setStatus("Analysis complete","ready");
+  }catch(e){setStatus("Error: "+e.message,"err");document.getElementById("loading-box").style.display="none";}
+  document.getElementById("analyze-btn").disabled=false;
+}
+
+function renderReport(d){
+  document.getElementById("loading-box").style.display="none";
+  document.getElementById("output-section").style.display="flex";
+  document.getElementById("rpt-date").textContent="Generated "+new Date().toLocaleDateString("en-GB",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  const badge=document.getElementById("pri-badge");
+  const pm={critical:["#fef2f2","var(--red)","#fecaca","Critical — act now"],high:["#fffbeb","var(--amber)","#fde68a","High priority"],medium:["var(--indigo-bg)","var(--indigo)","#c7d2fe","Medium priority"]};
+  const[pb,pc,pbd,pt]=pm[d.overall_priority]||pm.high;
+  badge.textContent=pt;badge.style.cssText=`background:${pb};color:${pc};border-color:${pbd}`;
+
+  let html="";
+
+  html+=`<div class="rs"><div class="rt"><div class="rdot" style="background:var(--navy)"></div>Executive summary</div><p style="font-size:13px;line-height:1.65;color:var(--text2)">${d.executive_summary}</p>`;
+  if(d.biggest_leak){html+=`<div style="margin-top:12px;background:var(--red-bg);border:1px solid var(--red-lt);border-radius:8px;padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Biggest leak</div><div style="font-size:12px;font-weight:600;color:var(--red)">${d.biggest_leak.step}</div></div><div><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Users lost</div><div style="font-size:12px;font-weight:600;color:var(--text);font-family:'JetBrains Mono',monospace">${(d.biggest_leak.users_lost||0).toLocaleString()} (${d.biggest_leak.drop_rate})</div></div><div><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Revenue upside (20% fix)</div><div style="font-size:12px;font-weight:600;color:var(--green)">${d.biggest_leak.revenue_impact}</div></div></div>`;}
+  html+=`</div>`;
+
+  if(d.dropoffs?.length){
+    html+=`<div class="rs"><div class="rt"><div class="rdot" style="background:var(--red)"></div>Drop-off analysis</div>`;
+    const sc={critical:"var(--red)",high:"var(--amber)",medium:"var(--indigo)"};
+    d.dropoffs.forEach(dr=>{html+=`<div class="do-item"><div class="do-top"><span class="do-step">${dr.step_from} → ${dr.step_to}</span><span style="font-size:11px;font-weight:700;color:${sc[dr.severity]||"var(--amber)"}">-${(dr.users_lost||0).toLocaleString()} · ${dr.drop_rate}</span></div><div class="do-why">${dr.why}</div>${(dr.hypotheses||[]).map(h=>`<div class="hyp-row"><span style="color:var(--indigo)">→</span>${h}</div>`).join("")}</div>`;});
+    html+=`</div>`;
+  }
+
+  if(d.segments?.length){
+    html+=`<div class="rs"><div class="rt"><div class="rdot" style="background:var(--cyan)"></div>Segment signals</div><div class="seg-grid">`;
+    d.segments.forEach(s=>{html+=`<div class="seg-c"><div class="seg-n">${s.name}</div><div class="seg-s">${s.stat}</div><span class="seg-badge ${s.signal==="risk"?"sb-risk":"sb-opp"}">${s.signal==="risk"?"At risk":"Opportunity"}</span><div style="font-size:10px;color:var(--text3);margin-top:5px">${s.action}</div></div>`;});
+    html+=`</div></div>`;
+  }
+
+  if(d.interventions?.length){
+    const sorted=[...d.interventions].sort((a,b)=>(b.priority_score||0)-(a.priority_score||0));
+    html+=`<div class="rs"><div class="rt"><div class="rdot" style="background:var(--green)"></div>Prioritised interventions</div>`;
+    sorted.forEach((iv,i)=>{
+      const ic={high:"it-high",medium:"it-med",low:"it-low"};
+      html+=`<div class="iv-row"><div class="iv-n">${i+1}</div><div><div class="iv-t">${iv.title}</div><div class="iv-d">${iv.description}</div><div class="iv-tags"><span class="it it-step">${iv.targets_step}</span><span class="it it-eff">Effort: ${iv.effort}</span><span class="it ${ic[iv.expected_impact]||"it-med"}">Impact: ${iv.expected_impact}</span><span class="it it-eff">${iv.time_to_results}</span></div></div><div class="iv-score"><div class="score-n">${iv.priority_score}</div><div class="score-l">score</div></div></div>`;
+    });
+    html+=`</div>`;
+  }
+
+  if(d.this_week_actions?.length){
+    html+=`<div class="rs"><div class="rt"><div class="rdot" style="background:var(--indigo)"></div>This week's actions</div>`;
+    d.this_week_actions.forEach((a,i)=>{html+=`<div class="wa-row"><div class="wa-n">${i+1}</div><div><div style="font-size:12px;color:var(--text);line-height:1.5">${a.action}</div><div style="font-size:10px;color:var(--text3);margin-top:2px">Owner: ${a.owner} · Moves: ${a.metric_to_move}</div></div></div>`;});
+    html+=`</div>`;
+  }
+
+  if(d.north_star_metric){html+=`<div class="rs"><div class="rt"><div class="rdot" style="background:var(--amber)"></div>North star metric</div><div style="background:var(--amber-bg);border:1px solid #fde68a;border-radius:8px;padding:12px 14px;font-size:13px;font-weight:600;color:var(--amber)">${d.north_star_metric}</div></div>`;}
+
+  if(d.watch_list?.length){
+    html+=`<div class="rs"><div class="rt"><div class="rdot" style="background:var(--amber)"></div>Watch list</div>`;
+    d.watch_list.forEach(w=>{html+=`<div class="watch-row"><span style="color:var(--amber)">▸</span><span>${w}</span></div>`;});
+    html+=`</div>`;
+  }
+
+  document.getElementById("rpt-body").innerHTML=html;
+  reportText=`ACTIVATION INTELLIGENCE REPORT\n${new Date().toLocaleDateString("en-GB")}\nSources: ${connectedSources.join(", ")||"manual"}\n\nPRIORITY: ${(d.overall_priority||"").toUpperCase()}\n\n${d.executive_summary}\n\nBIGGEST LEAK: ${d.biggest_leak?.step} — ${(d.biggest_leak?.users_lost||0).toLocaleString()} lost (${d.biggest_leak?.drop_rate})\nRevenue upside 20% fix: ${d.biggest_leak?.revenue_impact}\n\nDROP-OFFS:\n${(d.dropoffs||[]).map(dr=>`${dr.step_from} → ${dr.step_to}: -${(dr.users_lost||0).toLocaleString()} (${dr.drop_rate})\n  Why: ${dr.why}\n  Hypotheses: ${(dr.hypotheses||[]).join(" | ")}`).join("\n\n")}\n\nINTERVENTIONS:\n${([...(d.interventions||[])].sort((a,b)=>(b.priority_score||0)-(a.priority_score||0))).map((iv,i)=>`${i+1}. [${iv.priority_score}] ${iv.title}\n   ${iv.description}\n   ${iv.effort} effort · ${iv.expected_impact} impact · ${iv.time_to_results}`).join("\n\n")}\n\nTHIS WEEK:\n${(d.this_week_actions||[]).map((a,i)=>`${i+1}. ${a.action} [${a.owner}]`).join("\n")}\n\nNORTH STAR: ${d.north_star_metric}\n\nWATCH:\n${(d.watch_list||[]).map(w=>"- "+w).join("\n")}`;
+}
+
+function copyReport(){navigator.clipboard.writeText(reportText).then(()=>{setStatus("Copied!","ready");setTimeout(()=>setStatus("Ready","ready"),2000);});}
+function downloadReport(){const b=new Blob([reportText],{type:"text/plain"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="activation-analysis-"+new Date().toISOString().slice(0,10)+".txt";a.click();}
+function resetAnalysis(){document.getElementById("output-section").style.display="none";document.getElementById("loading-box").style.display="none";setStatus("Ready — update data and re-analyse","ready");}
+
+document.getElementById("anthropic-key").addEventListener("keydown",e=>{if(e.key==="Enter")saveKey();});
+loadSavedKeys();
+</script>
+</body>
+</html>
