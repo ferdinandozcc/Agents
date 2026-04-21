@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRD Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f11;--bg2:#18181c;--bg3:#222228;
+  --border:#2e2e38;--border2:#3e3e4e;
+  --purple:#7c6ff7;--purple-lt:#a89ef9;--purple-bg:#1e1b3a;
+  --teal:#2dd4b4;--teal-bg:#0f2e2a;
+  --text:#f0f0f4;--text2:#a0a0b0;--text3:#606070;
+  --red:#f87171;--green:#34d399;--amber:#fbbf24;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px}
+#root{width:100%;max-width:780px;display:flex;flex-direction:column;gap:16px}
+#api-bar{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px}
+#api-bar label{font-size:12px;color:var(--text2);white-space:nowrap;font-weight:500}
+#api-key-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;transition:border-color 0.2s}
+#api-key-input:focus{border-color:var(--purple)}
+#api-key-input::placeholder{color:var(--text3)}
+#save-key-btn{background:var(--purple);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity 0.2s}
+#save-key-btn:hover{opacity:0.85}
+#key-status{font-size:11px;white-space:nowrap}
+#key-status.set{color:var(--green)}
+#key-status.unset{color:var(--text3)}
+#app{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+#header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--bg3)}
+.logo{width:32px;height:32px;background:var(--purple-bg);border:1px solid var(--purple);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo svg{width:16px;height:16px;stroke:var(--purple);fill:none;stroke-width:1.5}
+#header-text{flex:1}
+#header-text h1{font-size:15px;font-weight:600;color:var(--text)}
+#header-text p{font-size:11px;color:var(--text3);margin-top:2px}
+#stage-info{text-align:right}
+.stage-name{font-size:11px;font-weight:500;color:var(--purple-lt)}
+.stage-num{font-size:10px;color:var(--text3);margin-top:1px}
+#progress-bar{height:2px;background:var(--border)}
+#progress-fill{height:100%;background:var(--purple);width:0%;transition:width 0.5s ease}
+#stages{display:flex;padding:10px 20px;gap:0;border-bottom:1px solid var(--border);background:var(--bg2);overflow-x:auto}
+.stage{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text3);white-space:nowrap;padding-right:16px;font-weight:500;letter-spacing:0.02em}
+.stage.active{color:var(--purple-lt)}
+.stage.done{color:var(--teal)}
+.stage-dot{width:5px;height:5px;border-radius:50%;background:var(--border2);flex-shrink:0}
+.stage.active .stage-dot{background:var(--purple)}
+.stage.done .stage-dot{background:var(--teal)}
+#messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;min-height:340px;max-height:440px;background:var(--bg)}
+.msg{display:flex;gap:10px;align-items:flex-start}
+.msg.user{flex-direction:row-reverse}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;border:1px solid var(--border2)}
+.avatar.agent{background:var(--purple-bg);color:var(--purple-lt)}
+.avatar.user{background:var(--bg3);color:var(--text2)}
+.bubble{max-width:80%;padding:11px 14px;border-radius:12px;font-size:13px;line-height:1.6;color:var(--text);border:1px solid var(--border);background:var(--bg2);white-space:pre-wrap}
+.msg.user .bubble{background:var(--bg3);border-color:var(--border2);color:var(--text2)}
+.typing{display:flex;gap:4px;align-items:center;padding:2px 0}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--purple);animation:pulse 1.2s infinite}
+.dot:nth-child(2){animation-delay:0.2s}
+.dot:nth-child(3){animation-delay:0.4s}
+@keyframes pulse{0%,80%,100%{opacity:0.2}40%{opacity:1}}
+#suggestions{display:none;padding:8px 20px;gap:6px;flex-wrap:wrap;border-top:1px solid var(--border);background:var(--bg2)}
+.suggestion{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);cursor:pointer;background:var(--bg3);transition:all 0.15s}
+.suggestion:hover{border-color:var(--purple);color:var(--purple-lt);background:var(--purple-bg)}
+#input-area{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end;background:var(--bg2)}
+#user-input{flex:1;resize:none;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);min-height:42px;max-height:120px;line-height:1.5;outline:none;transition:border-color 0.2s}
+#user-input:focus{border-color:var(--purple)}
+#user-input::placeholder{color:var(--text3)}
+#send-btn{width:40px;height:40px;border-radius:10px;border:none;background:var(--purple);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.2s,transform 0.1s}
+#send-btn:hover{opacity:0.85}
+#send-btn:active{transform:scale(0.95)}
+#send-btn:disabled{opacity:0.3;cursor:not-allowed}
+#send-btn svg{width:16px;height:16px;stroke:white;fill:none;stroke-width:2}
+#prd-output{display:none;border-top:1px solid var(--border);background:var(--bg2)}
+#prd-header{padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg3)}
+#prd-header-left{display:flex;align-items:center;gap:8px}
+#prd-header-left span{font-size:12px;font-weight:600;color:var(--teal)}
+.prd-badge{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal);font-weight:500}
+#prd-actions{display:flex;gap:6px}
+#prd-actions button{font-size:11px;padding:5px 12px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
+#prd-actions button:hover{border-color:var(--purple);color:var(--purple-lt)}
+#prd-content{padding:16px 20px;font-size:12px;line-height:1.7;color:var(--text2);max-height:280px;overflow-y:auto;font-family:'JetBrains Mono',monospace;white-space:pre-wrap;background:var(--bg)}
+#status-bar{padding:8px 20px;font-size:10px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;gap:6px;letter-spacing:0.02em}
+.status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0}
+.status-dot.error{background:var(--red)}
+.status-dot.loading{background:var(--amber);animation:pulse 1s infinite}
+</style>
+</head>
+<body>
+<div id="root">
+  <div id="api-bar">
+    <label>API Key</label>
+    <input type="password" id="api-key-input" placeholder="Paste your Anthropic API key (sk-ant-...)">
+    <button id="save-key-btn" onclick="saveKey()">Save</button>
+    <span id="key-status" class="unset">Not set</span>
+  </div>
+  <div id="app">
+    <div id="header">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+      </div>
+      <div id="header-text">
+        <h1>PRD Agent</h1>
+        <p>AI-powered product requirements document generator</p>
+      </div>
+      <div id="stage-info">
+        <div class="stage-name" id="stage-label">Discovery</div>
+        <div class="stage-num" id="stage-count">Step 1 of 6</div>
+      </div>
+    </div>
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+    <div id="stages">
+      <div class="stage active" id="s0"><div class="stage-dot"></div>Discovery</div>
+      <div class="stage" id="s1"><div class="stage-dot"></div>Problem</div>
+      <div class="stage" id="s2"><div class="stage-dot"></div>Users</div>
+      <div class="stage" id="s3"><div class="stage-dot"></div>Requirements</div>
+      <div class="stage" id="s4"><div class="stage-dot"></div>Validation</div>
+      <div class="stage" id="s5"><div class="stage-dot"></div>Generate</div>
+    </div>
+    <div id="messages"></div>
+    <div id="suggestions"></div>
+    <div id="input-area">
+      <textarea id="user-input" placeholder="Describe your feature idea to get started..." rows="1"></textarea>
+      <button id="send-btn" disabled>
+        <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>
+    <div id="prd-output">
+      <div id="prd-header">
+        <div id="prd-header-left">
+          <span>Generated PRD</span>
+          <span class="prd-badge">Ready</span>
+        </div>
+        <div id="prd-actions">
+          <button onclick="copyPRD()">Copy Markdown</button>
+          <button onclick="downloadPRD()">Download .md</button>
+          <button onclick="resetAgent()">New PRD</button>
+        </div>
+      </div>
+      <div id="prd-content"></div>
+    </div>
+    <div id="status-bar">
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text">Add your API key above to get started</span>
+    </div>
+  </div>
+</div>
+<script>
+const STAGE_NAMES=["Discovery","Problem definition","User research","Requirements","Self-validation","PRD generation"];
+const SYSTEM_PROMPT=`You are a senior product manager conducting a structured PRD interview. Your goal is to gather enough information to write a comprehensive Product Requirements Document.
+
+You have 6 stages to work through, but be adaptive — if the user gives rich answers, move faster.
+
+STAGE FLOW:
+1. DISCOVERY: Understand the feature idea. What problem does this solve? What is the business motivation?
+2. PROBLEM: Dig into the problem space. Who experiences it? How often? What is the current workaround?
+3. USERS: Identify personas. Who are the primary and secondary users? Goals and frustrations?
+4. REQUIREMENTS: Define what the solution must do. Functional, non-functional, and out-of-scope.
+5. VALIDATION: Self-critique. Identify gaps, ambiguities, missing edge cases. Ask clarifying questions.
+6. GENERATE: Produce the full PRD.
+
+RULES:
+- Ask ONE focused question at a time.
+- Be conversational and warm, not robotic.
+- Adapt based on what you already know — never repeat questions.
+- Transition naturally between stages: "Great, I have a good picture of the problem. Now let's think about the users..."
+- At stage 6, output the PRD starting with exactly "PRD_READY:" followed by the document in this format:
+
+PRD_READY:
+# PRD: [Feature Name]
+
+**Status:** Draft
+**Date:** [current month year]
+
+---
+
+## 1. Problem Statement
+[2-3 sentences]
+
+## 2. Goals & Success Metrics
+**Goals:**
+- [goal]
+
+**Success Metrics:**
+- [measurable metric]
+
+## 3. User Personas
+**Primary:** [name, role, key need]
+**Secondary:** [name, role, key need]
+
+## 4. User Stories
+- As a [persona], I want [action] so that [benefit]
+
+## 5. Functional Requirements
+- [requirement]
+
+## 6. Non-Functional Requirements
+- [performance, security, accessibility]
+
+## 7. Out of Scope
+- [explicit exclusion]
+
+## 8. Dependencies & Risks
+- [dependency or risk]
+
+## 9. Open Questions
+- [question]`;
+
+let history=[],currentStage=0,isLoading=false,prdText="",apiKey="";
+const messagesEl=document.getElementById("messages");
+const inputEl=document.getElementById("user-input");
+const sendBtn=document.getElementById("send-btn");
+const suggestionsEl=document.getElementById("suggestions");
+const progressFill=document.getElementById("progress-fill");
+const stageLabelEl=document.getElementById("stage-label");
+const stageCountEl=document.getElementById("stage-count");
+const statusText=document.getElementById("status-text");
+const statusDot=document.getElementById("status-dot");
+
+function saveKey(){
+  const val=document.getElementById("api-key-input").value.trim();
+  if(!val.startsWith("sk-ant-")){setStatus("Key must start with sk-ant-","error");return;}
+  apiKey=val;
+  document.getElementById("key-status").textContent="Set";
+  document.getElementById("key-status").className="set";
+  document.getElementById("api-key-input").value="sk-ant-••••••••••••••••";
+  sendBtn.disabled=false;
+  setStatus("API key saved — starting interview...","ready");
+  startConversation();
+}
+
+function setStatus(text,state){
+  statusText.textContent=text;
+  statusDot.className="status-dot"+(state==="error"?" error":state==="loading"?" loading":"");
+}
+
+function updateStageUI(stage){
+  currentStage=Math.min(stage,5);
+  progressFill.style.width=((currentStage/5)*100)+"%";
+  stageLabelEl.textContent=STAGE_NAMES[currentStage];
+  stageCountEl.textContent="Step "+(currentStage+1)+" of 6";
+  for(let i=0;i<6;i++){
+    const el=document.getElementById("s"+i);
+    el.className="stage"+(i<currentStage?" done":i===currentStage?" active":"");
+  }
+}
+
+function addMessage(role,text){
+  const msg=document.createElement("div");msg.className="msg "+role;
+  const av=document.createElement("div");av.className="avatar "+(role==="agent"?"agent":"user");av.textContent=role==="agent"?"AI":"You";
+  const bub=document.createElement("div");bub.className="bubble";bub.textContent=text;
+  msg.appendChild(av);msg.appendChild(bub);
+  messagesEl.appendChild(msg);messagesEl.scrollTop=messagesEl.scrollHeight;
+}
+
+function showTyping(){
+  const msg=document.createElement("div");msg.className="msg agent";msg.id="typing-msg";
+  const av=document.createElement("div");av.className="avatar agent";av.textContent="AI";
+  const bub=document.createElement("div");bub.className="bubble";
+  bub.innerHTML='<div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  msg.appendChild(av);msg.appendChild(bub);
+  messagesEl.appendChild(msg);messagesEl.scrollTop=messagesEl.scrollHeight;
+}
+
+function removeTyping(){const el=document.getElementById("typing-msg");if(el)el.remove();}
+
+function showSuggestions(items){
+  suggestionsEl.innerHTML="";
+  suggestionsEl.style.display=items.length?"flex":"none";
+  items.forEach(s=>{
+    const b=document.createElement("div");b.className="suggestion";b.textContent=s;
+    b.onclick=()=>{inputEl.value=s;suggestionsEl.style.display="none";sendMessage();};
+    suggestionsEl.appendChild(b);
+  });
+}
+
+function getSuggestions(stage){
+  const map={
+    0:["It's a B2B SaaS feature","Internal productivity tool","Customer-facing mobile feature"],
+    1:["Users lose hours to manual work","High error rate in current process","Missing feature competitors have"],
+    2:["Operations managers are primary users","End customers / buyers","Internal engineering teams"],
+    3:["Needs real-time sync","Must work on mobile","Requires Slack integration"],
+    4:["What about offline edge cases?","I need better success metrics","Let's define out of scope more clearly"],
+  };
+  return map[stage]||[];
+}
+
+function detectStage(text){
+  const l=text.toLowerCase();
+  if(l.includes("think about the users")||l.includes("talk about who"))return 2;
+  if(l.includes("requirements")&&(l.includes("functional")||l.includes("must do")))return 3;
+  if(l.includes("validate")||l.includes("before i generate")||l.includes("a few gaps"))return 4;
+  if(text.includes("PRD_READY:"))return 5;
+  return currentStage;
+}
+
+function showPRD(text){
+  const clean=text.replace("PRD_READY:","").trim();
+  prdText=clean;
+  document.getElementById("prd-output").style.display="block";
+  document.getElementById("prd-content").textContent=clean;
+  updateStageUI(5);
+  setStatus("PRD complete — copy or download below","ready");
+  addMessage("agent","Your PRD is ready! Copy or download it below. Want me to refine any section, adjust the tone, or generate an executive summary?");
+}
+
+function copyPRD(){
+  navigator.clipboard.writeText(prdText).then(()=>{
+    setStatus("Copied to clipboard!","ready");
+    setTimeout(()=>setStatus("Ready — powered by Claude","ready"),2000);
+  });
+}
+
+function downloadPRD(){
+  const title=(prdText.match(/# PRD: (.+)/)||[])[1]||"PRD";
+  const blob=new Blob([prdText],{type:"text/markdown"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=title.replace(/[^a-z0-9]/gi,"-").toLowerCase()+".md";
+  a.click();
+}
+
+function resetAgent(){
+  history=[];currentStage=0;prdText="";
+  messagesEl.innerHTML="";
+  document.getElementById("prd-output").style.display="none";
+  suggestionsEl.style.display="none";
+  updateStageUI(0);
+  startConversation();
+}
+
+async function callClaude(userMessage){
+  history.push({role:"user",content:userMessage});
+  const response=await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "x-api-key":apiKey,
+      "anthropic-version":"2023-06-01",
+      "anthropic-dangerous-direct-browser-access":"true"
+    },
+    body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:1500,system:SYSTEM_PROMPT,messages:history}),
+  });
+  if(!response.ok){const e=await response.json().catch(()=>({}));throw new Error(e.error?.message||"API error "+response.status);}
+  const data=await response.json();
+  const text=data.content?.[0]?.text||"";
+  history.push({role:"assistant",content:text});
+  return text;
+}
+
+async function sendMessage(){
+  const text=inputEl.value.trim();
+  if(!text||isLoading||!apiKey)return;
+  inputEl.value="";inputEl.style.height="42px";
+  suggestionsEl.style.display="none";
+  isLoading=true;sendBtn.disabled=true;
+  setStatus("Claude is thinking...","loading");
+  addMessage("user",text);showTyping();
+  try{
+    const reply=await callClaude(text);
+    removeTyping();
+    if(reply.includes("PRD_READY:")){showPRD(reply);}
+    else{
+      const d=detectStage(reply);
+      if(d>currentStage)updateStageUI(d);
+      addMessage("agent",reply);
+      showSuggestions(getSuggestions(currentStage));
+      setStatus("Ready — powered by Claude","ready");
+    }
+  }catch(err){
+    removeTyping();
+    addMessage("agent","Error: "+err.message);
+    setStatus("Error — "+err.message,"error");
+  }
+  isLoading=false;sendBtn.disabled=!apiKey;inputEl.focus();
+}
+
+async function startConversation(){
+  if(!apiKey)return;
+  isLoading=true;sendBtn.disabled=true;
+  setStatus("Starting interview...","loading");
+  showTyping();
+  try{
+    history=[];
+    const reply=await callClaude("Hello, I'd like to create a PRD for a new feature.");
+    removeTyping();addMessage("agent",reply);
+    showSuggestions(getSuggestions(0));
+    setStatus("Ready — powered by Claude","ready");
+  }catch(err){
+    removeTyping();
+    addMessage("agent","Welcome to the PRD Agent! Tell me about the feature you want to document — what problem are you trying to solve?");
+    setStatus("Error connecting — check your API key","error");
+  }
+  isLoading=false;sendBtn.disabled=false;
+}
+
+inputEl.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}});
+inputEl.addEventListener("input",()=>{inputEl.style.height="42px";inputEl.style.height=Math.min(inputEl.scrollHeight,120)+"px";});
+document.getElementById("api-key-input").addEventListener("keydown",e=>{if(e.key==="Enter")saveKey();});
+sendBtn.addEventListener("click",sendMessage);
+updateStageUI(0);
+</script>
+</body>
+</html>
