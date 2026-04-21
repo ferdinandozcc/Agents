@@ -167,6 +167,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <input type="password" id="anthropic-key" placeholder="sk-ant-...">
     <button id="save-key-btn" onclick="saveKey()">Save</button>
     <span id="key-status" class="unset">Not set</span>
+    <button onclick="clearAllKeys()" style="font-size:11px;padding:5px 10px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;font-family:'Inter',sans-serif;" title="Clear all saved keys">Clear saved</button>
   </div>
 
   <div id="connections-panel">
@@ -399,6 +400,51 @@ let connectionsOpen = false;
 let connectedSources = [];
 let autoMetrics = {};
 
+const STORAGE_KEYS = {
+  anthropic: "pulse_anthropic_key",
+  stripe: "pulse_stripe_key",
+  amplitude_api: "pulse_amplitude_api",
+  amplitude_secret: "pulse_amplitude_secret",
+  mixpanel_token: "pulse_mixpanel_token",
+  mixpanel_secret: "pulse_mixpanel_secret",
+  mixpanel_project: "pulse_mixpanel_project",
+  hubspot: "pulse_hubspot_key",
+};
+
+function saveToStorage(key, value) {
+  try { localStorage.setItem(key, value); } catch(e) {}
+}
+
+function loadFromStorage(key) {
+  try { return localStorage.getItem(key) || ""; } catch(e) { return ""; }
+}
+
+function loadSavedKeys() {
+  const ak = loadFromStorage(STORAGE_KEYS.anthropic);
+  if (ak) {
+    anthropicKey = ak;
+    document.getElementById("key-status").textContent = "Set (saved)";
+    document.getElementById("key-status").className = "set";
+    document.getElementById("anthropic-key").placeholder = "sk-ant-•••• (saved)";
+    document.getElementById("run-btn").disabled = false;
+    setStatus("Saved API key loaded — ready to generate", "ready");
+  }
+  const sk = loadFromStorage(STORAGE_KEYS.stripe);
+  if (sk) document.getElementById("stripe-key").placeholder = "sk_live_•••• (saved)";
+  const aa = loadFromStorage(STORAGE_KEYS.amplitude_api);
+  if (aa) document.getElementById("amplitude-api-key").placeholder = "•••• (saved)";
+  const as = loadFromStorage(STORAGE_KEYS.amplitude_secret);
+  if (as) document.getElementById("amplitude-secret").placeholder = "•••• (saved)";
+  const mt = loadFromStorage(STORAGE_KEYS.mixpanel_token);
+  if (mt) document.getElementById("mixpanel-token").placeholder = "•••• (saved)";
+  const ms = loadFromStorage(STORAGE_KEYS.mixpanel_secret);
+  if (ms) document.getElementById("mixpanel-secret").placeholder = "•••• (saved)";
+  const mp = loadFromStorage(STORAGE_KEYS.mixpanel_project);
+  if (mp) { document.getElementById("mixpanel-project").value = mp; }
+  const hk = loadFromStorage(STORAGE_KEYS.hubspot);
+  if (hk) document.getElementById("hubspot-key").placeholder = "•••• (saved)";
+}
+
 function setStatus(t, s) {
   document.getElementById("status-text").textContent = t;
   document.getElementById("sdot").className = "sdot" + (s === "error" ? " error" : s === "loading" ? " loading" : "");
@@ -408,11 +454,13 @@ function saveKey() {
   const v = document.getElementById("anthropic-key").value.trim();
   if (!v.startsWith("sk-ant-")) { setStatus("Key must start with sk-ant-", "error"); return; }
   anthropicKey = v;
-  document.getElementById("key-status").textContent = "Set";
+  saveToStorage(STORAGE_KEYS.anthropic, v);
+  document.getElementById("key-status").textContent = "Set (saved)";
   document.getElementById("key-status").className = "set";
-  document.getElementById("anthropic-key").value = "sk-ant-••••••••••••••••";
+  document.getElementById("anthropic-key").value = "";
+  document.getElementById("anthropic-key").placeholder = "sk-ant-•••• (saved)";
   document.getElementById("run-btn").disabled = false;
-  setStatus("API key saved — ready to generate", "ready");
+  setStatus("API key saved to browser — will persist on reload", "ready");
 }
 
 function toggleConnections() {
@@ -453,7 +501,9 @@ function setMetric(key, curr, prev, goodUp) {
 }
 
 async function connectStripe() {
-  const key = document.getElementById("stripe-key").value.trim();
+  const raw = document.getElementById("stripe-key").value.trim();
+  const key = raw || loadFromStorage(STORAGE_KEYS.stripe);
+  if (raw) saveToStorage(STORAGE_KEYS.stripe, raw);
   if (!key) { setConnStatus("stripe", "error", "Please enter your Stripe restricted API key"); return; }
   setConnStatus("stripe", "fetching");
   setStatus("Fetching from Stripe...", "loading");
@@ -479,8 +529,12 @@ async function connectStripe() {
 }
 
 async function connectAmplitude() {
-  const apiKey = document.getElementById("amplitude-api-key").value.trim();
-  const secret = document.getElementById("amplitude-secret").value.trim();
+  const rawApi = document.getElementById("amplitude-api-key").value.trim();
+  const rawSecret = document.getElementById("amplitude-secret").value.trim();
+  const apiKey = rawApi || loadFromStorage(STORAGE_KEYS.amplitude_api);
+  const secret = rawSecret || loadFromStorage(STORAGE_KEYS.amplitude_secret);
+  if (rawApi) saveToStorage(STORAGE_KEYS.amplitude_api, rawApi);
+  if (rawSecret) saveToStorage(STORAGE_KEYS.amplitude_secret, rawSecret);
   if (!apiKey || !secret) { setConnStatus("amplitude", "error", "Enter both API Key and Secret Key"); return; }
   setConnStatus("amplitude", "fetching");
   setStatus("Fetching from Amplitude...", "loading");
@@ -509,9 +563,15 @@ async function connectAmplitude() {
 }
 
 async function connectMixpanel() {
-  const user = document.getElementById("mixpanel-token").value.trim();
-  const secret = document.getElementById("mixpanel-secret").value.trim();
-  const project = document.getElementById("mixpanel-project").value.trim();
+  const rawUser = document.getElementById("mixpanel-token").value.trim();
+  const rawSecret = document.getElementById("mixpanel-secret").value.trim();
+  const rawProject = document.getElementById("mixpanel-project").value.trim();
+  const user = rawUser || loadFromStorage(STORAGE_KEYS.mixpanel_token);
+  const secret = rawSecret || loadFromStorage(STORAGE_KEYS.mixpanel_secret);
+  const project = rawProject || loadFromStorage(STORAGE_KEYS.mixpanel_project);
+  if (rawUser) saveToStorage(STORAGE_KEYS.mixpanel_token, rawUser);
+  if (rawSecret) saveToStorage(STORAGE_KEYS.mixpanel_secret, rawSecret);
+  if (rawProject) saveToStorage(STORAGE_KEYS.mixpanel_project, rawProject);
   if (!user || !secret || !project) { setConnStatus("mixpanel", "error", "All three fields are required"); return; }
   setConnStatus("mixpanel", "fetching");
   setStatus("Fetching from Mixpanel...", "loading");
@@ -540,7 +600,9 @@ async function connectMixpanel() {
 }
 
 async function connectHubspot() {
-  const key = document.getElementById("hubspot-key").value.trim();
+  const raw = document.getElementById("hubspot-key").value.trim();
+  const key = raw || loadFromStorage(STORAGE_KEYS.hubspot);
+  if (raw) saveToStorage(STORAGE_KEYS.hubspot, raw);
   if (!key) { setConnStatus("hubspot", "error", "Enter your HubSpot Private App token"); return; }
   setConnStatus("hubspot", "fetching");
   setStatus("Fetching from HubSpot...", "loading");
@@ -719,6 +781,22 @@ function renderReport(d) {
   reportText = `WEEKLY BUSINESS PULSE\n${new Date().toLocaleDateString("en-GB")}\nSources: ${connectedSources.join(", ") || "manual"}\n\nSTATUS: ${(d.overall_status||"").toUpperCase()}\n${d.overall_summary}\n\nALERTS:\n${(d.alerts||[]).map(a=>`[${a.level.toUpperCase()}] ${a.text}`).join("\n")}\n\nB2C:\n${(d.b2c_insights||[]).map(i=>"- "+i).join("\n")}\n\nB2B:\n${(d.b2b_insights||[]).map(i=>"- "+i).join("\n")}\n\nREVENUE:\n${(d.revenue_insights||[]).map(i=>"- "+i).join("\n")}\n\nACTIONS:\n${(d.top_actions||[]).map((a,i)=>`${i+1}. ${a.action} [${a.owner} / ${a.urgency}]`).join("\n")}\n\nWATCH:\n${(d.watch_list||[]).map(w=>"- "+w).join("\n")}`;
 }
 
+function clearAllKeys() {
+  if (!confirm("Clear all saved API keys from this browser?")) return;
+  Object.values(STORAGE_KEYS).forEach(k => { try { localStorage.removeItem(k); } catch(e) {} });
+  anthropicKey = "";
+  document.getElementById("key-status").textContent = "Not set";
+  document.getElementById("key-status").className = "unset";
+  document.getElementById("anthropic-key").placeholder = "sk-ant-...";
+  document.getElementById("run-btn").disabled = true;
+  ["stripe-key","amplitude-api-key","amplitude-secret","mixpanel-token","mixpanel-secret","hubspot-key"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.placeholder = el.getAttribute("placeholder").split(" (saved)")[0];
+  });
+  document.getElementById("mixpanel-project").value = "";
+  setStatus("All saved keys cleared", "ready");
+}
+
 function copyReport() { navigator.clipboard.writeText(reportText).then(()=>{ setStatus("Copied!","ready"); setTimeout(()=>setStatus("Ready","ready"),2000); }); }
 function downloadReport() { const b=new Blob([reportText],{type:"text/plain"}); const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="weekly-pulse-"+new Date().toISOString().slice(0,10)+".txt"; a.click(); }
 function resetPulse() { document.getElementById("output-section").style.display="none"; document.getElementById("loading-overlay").style.display="none"; setStatus("Ready","ready"); }
@@ -726,6 +804,7 @@ function resetPulse() { document.getElementById("output-section").style.display=
 const now = new Date();
 document.getElementById("week-label").textContent = "W" + String(now.getMonth()+1).padStart(2,"0") + " · " + now.getFullYear();
 document.getElementById("anthropic-key").addEventListener("keydown", e => { if(e.key==="Enter") saveKey(); });
+loadSavedKeys();
 </script>
 </body>
 </html>
