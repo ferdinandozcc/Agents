@@ -2,7 +2,7 @@
 
 # 🤖 Agents Repository
 
-**108 AI agents built with the Anthropic API — ready to run, extend, and deploy.**
+**108 AI agents built with the Anthropic API — a reusable structure and lab of 108 agents.**
 
 [![Agents](https://img.shields.io/badge/agents-108-7F77DD?style=flat-square)](#)
 [![Categories](https://img.shields.io/badge/categories-7-1D9E75?style=flat-square)](#)
